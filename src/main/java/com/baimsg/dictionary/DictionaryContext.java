@@ -11,6 +11,9 @@ public class DictionaryContext {
 
     public DictionaryContext(User user) {
         switch (user.getChannel()) {
+            case "名信":
+                ds = new NameLetterDictionary(user);
+                break;
             case "探Mi":
             default:
                 //探Mi
