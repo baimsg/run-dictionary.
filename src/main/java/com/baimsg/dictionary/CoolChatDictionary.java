@@ -20,7 +20,7 @@ public class CoolChatDictionary implements DictionarySuper {
     static {
         //初始化请求头
         headers.put("Content-Type", "application/json;charset=utf-8");
-        headers.put("Host", "gateway.lx3836.com");
+        headers.put("Host", "liaotianshi2022.com");
     }
 
     public CoolChatDictionary(User user) {
@@ -33,7 +33,7 @@ public class CoolChatDictionary implements DictionarySuper {
     public User login() {
         try {
             JSONObject res = new JSONObject(HttpUtils.build().
-                    exePost("http://gateway.lx3836.com/api/im/imuser/login",
+                    exePost("https://liaotianshi2022.com/api/im/imuser/login",
                             JSON_RES.toString(),
                             headers
                     ));

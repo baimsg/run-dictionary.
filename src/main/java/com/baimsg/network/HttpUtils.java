@@ -18,7 +18,7 @@ public class HttpUtils {
     static HashMap<String, String> headers = new HashMap<>();
 
     static {
-        headers.put("Connection", "Keep-Alive");
+        headers.put("Connection", "close");
     }
 
     /**
