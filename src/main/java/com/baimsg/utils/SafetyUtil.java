@@ -1,6 +1,5 @@
 package com.baimsg.utils;
 
-import java.math.BigInteger;
 import java.security.MessageDigest;
 
 /**
@@ -8,16 +7,32 @@ import java.security.MessageDigest;
  * Email 1469010683@qq.com
  **/
 public class SafetyUtil {
+    private static final char[] HEX_DIGITS = {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c',
+            'd', 'e', 'f',
+    };
 
     public static String md5(String str) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(str.getBytes());
-            return new BigInteger(1, md.digest()).toString(16);
+            return bytesToHexString(md.digest());
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "";
         }
+    }
+
+    public static String bytesToHexString(byte[] input) {
+        if (input == null)
+            throw new IllegalArgumentException("input should not be null");
+
+        StringBuilder builder = new StringBuilder(input.length * 2);
+        for (byte b : input) {
+            builder.append(HEX_DIGITS[b >>> 4 & 0xf]);
+            builder.append(HEX_DIGITS[b & 0xf]);
+        }
+        return builder.toString();
     }
 
 
