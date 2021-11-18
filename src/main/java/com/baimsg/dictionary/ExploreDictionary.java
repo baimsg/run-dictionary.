@@ -13,10 +13,9 @@ import java.util.UUID;
  * 探Mi登录实现类
  **/
 public class ExploreDictionary implements DictionarySuper {
-    private User user;
+    private final User user;
     private static final HashMap<String, String> headers = new HashMap<>();
     private static final JSONObject JSON_RES = new JSONObject();
-
 
     static {
         //初始化请求头
@@ -32,10 +31,6 @@ public class ExploreDictionary implements DictionarySuper {
         JSON_RES.put("latitude", "");
         JSON_RES.put("longitude", "");
         JSON_RES.put("device", "0");
-    }
-
-    //不允许直接new
-    private ExploreDictionary() {
     }
 
     public ExploreDictionary(User user) {

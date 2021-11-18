@@ -7,10 +7,13 @@ import com.baimsg.bean.User;
  **/
 public class DictionaryContext {
 
-    private DictionarySuper ds;
+    private final DictionarySuper ds;
 
     public DictionaryContext(User user) {
         switch (user.getChannel()) {
+            case "梦想":
+                ds = new DreamDictionary(user);
+                break;
             case "名信":
                 ds = new NameLetterDictionary(user);
                 break;

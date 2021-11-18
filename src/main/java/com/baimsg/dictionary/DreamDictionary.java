@@ -2,55 +2,59 @@ package com.baimsg.dictionary;
 
 import com.baimsg.bean.User;
 import com.baimsg.network.HttpUtils;
-import com.baimsg.utils.SafetyUtil;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
 /**
  * Create by Baimsg on 2021/11/18
- * 名信登录实现类
+ * 梦想登录实现类
  **/
-public class NameLetterDictionary implements DictionarySuper {
+public class DreamDictionary implements DictionarySuper {
     private final User user;
     private static final HashMap<String, String> headers = new HashMap<>();
-    private static final JSONObject JSON_RES = new JSONObject();
+    private static final HashMap<String, String> form = new HashMap<>();
 
     static {
         //初始化请求头
-        headers.put("Content-Type", "application/json;charset=utf-8");
-        headers.put("Host", "gateway.lx3836.com");
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+        headers.put("Host", "mxdd666.com:51001");
+        headers.put("Connection", "Keep-Alive");
+
+        //初始化提交表单
+        form.put("os", "android");
+        form.put("v", "2.2.5");
     }
 
-    public NameLetterDictionary(User user) {
+    public DreamDictionary(User user) {
         this.user = user;
-        JSON_RES.put("username", user.getPhone());
-        JSON_RES.put("pwd", SafetyUtil.md5(user.getPassword()));
+        form.put("account", user.getPhone());
+        form.put("password", user.getPassword());
     }
 
     @Override
     public User login() {
         try {
             JSONObject res = new JSONObject(HttpUtils.build().
-                    exePost("http://gateway.lx3836.com/api/im/imuser/login",
-                            JSON_RES.toString(),
+                    exePost("https://mxdd666.com:51001/api/user/login",
+                            form,
                             headers
                     ));
             String message = res.getString("msg");
-            if (res.getLong("code") == 200) {
+            if (res.getLong("code") == 0) {
                 JSONObject data = res.getJSONObject("data");
                 user.setSuccess(true);
-                user.setUserName(data.getString("userId"));
+                user.setUserName(data.getLong("id") + "");
                 user.setToken(data.getString("token"));
             } else {
                 user.setSuccess(false);
             }
             user.setMessage(message);
         } catch (Exception e) {
+            e.printStackTrace();
             user.setSuccess(false);
             user.setMessage(e.getMessage());
         }
         return user;
     }
-
 }

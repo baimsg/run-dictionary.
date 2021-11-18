@@ -20,7 +20,7 @@ public class Test {
             );
             String s;
             while ((s = br.readLine()) != null) {
-                System.out.println(new DictionaryContext(new User("名信", "baimsg", s)).login().getUserName());
+                System.out.println(new DictionaryContext(new User("梦想", "18685733570", s)).login().getUserName());
             }
             br.close();
         } catch (IOException e) {
