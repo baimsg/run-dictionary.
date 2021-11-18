@@ -19,6 +19,9 @@ public class DictionaryContext {
             case "梦想":
                 ds = new DreamDictionary(user);
                 break;
+            case "友聊":
+                ds = new FriendsChatDictionary(user);
+                break;
             case "名信":
                 ds = new NameLetterDictionary(user);
                 break;
