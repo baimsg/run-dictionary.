@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 /**
  * Create by Baimsg on 2021/11/18
+ * <p>
  * 名信登录实现类
  **/
 public class NameLetterDictionary implements DictionarySuper {
