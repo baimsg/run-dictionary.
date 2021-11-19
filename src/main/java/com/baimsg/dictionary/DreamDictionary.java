@@ -18,8 +18,8 @@ public class DreamDictionary implements DictionarySuper {
     static {
         //初始化请求头
         headers.put("Content-Type", "application/x-www-form-urlencoded");
-        headers.put("Host", "mxdd666.com:51001");
         headers.put("Connection", "close");
+//        headers.put("Host", "mxdd666.com:51001");
     }
 
     public DreamDictionary(User user) {

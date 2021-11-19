@@ -20,7 +20,7 @@ public class CoolChatDictionary implements DictionarySuper {
         //初始化请求头
         headers.put("Connection", "close");
         headers.put("Content-Type", "application/json;charset=utf-8");
-        headers.put("Host", "liaotianshi2022.com");
+//        headers.put("Host", "liaotianshi2022.com");
     }
 
     public CoolChatDictionary(User user) {

@@ -18,14 +18,14 @@ public class DictionaryThread implements Runnable {
     @Override
     public void run() {
         User user = new DictionaryContext(my).login();
-        System.out.println(user.getId() + "\tapp：" + my.getChannel() + "\t账号：" + my.getPhone() + "\t密码：" + my.getPassword());
+        String str = user.getId() + "\tapp：" + my.getChannel() + "\t账号：" + my.getPhone() + "\t密码：" + my.getPassword();
         if (user.isSuccess()) {
-            System.err.println(user.getUserName() + "~登陆成功 [密码：" + user.getPassword() + "]\ttoken：" + user.getToken());
-            if (!DictionaryThreadPoolExecutor.threadPoolExecutor.isShutdown()) {
-                DictionaryThreadPoolExecutor.threadPoolExecutor.shutdownNow();
-            }
+            System.err.println(str + "\n" + user.getUserName() + " --> 登陆成功\ttoken：" + user.getToken());
+            DictionaryThreadPoolExecutor.threadPoolExecutor.shutdownNow();
         } else {
-            System.out.println(user.getMessage());
+            if (!DictionaryThreadPoolExecutor.threadPoolExecutor.isShutdown()) {
+                System.out.println(str + "\n" + user.getMessage());
+            }
         }
     }
 }

@@ -19,7 +19,6 @@ public class FriendsChatDictionary implements DictionarySuper {
     static {
         //初始化请求头
         headers.put("Content-Type", "application/x-www-form-urlencoded");
-        headers.put("Host", "yl0528ywl02q.cc:51001");
         headers.put("Connection", "close");
     }
 
@@ -38,7 +37,7 @@ public class FriendsChatDictionary implements DictionarySuper {
             form.put("password", user.getPassword());
 
             JSONObject res = new JSONObject(HttpUtils.build().
-                    exePost("https://yl0528yl02.cc:51001/api/user/login",
+                    exePost("https://yl0528yl01.cc:51001/api/user/login",
                             form,
                             headers
                     ));

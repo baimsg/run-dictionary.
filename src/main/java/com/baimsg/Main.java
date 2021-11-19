@@ -16,7 +16,7 @@ public class Main {
     /**
      * 一次跑多少
      */
-    public static int maxThread = 20;
+    public static int maxThread = 50;
 
     /**
      * 账号
@@ -39,7 +39,7 @@ public class Main {
     /**
      * app名字
      */
-    private static final String appName = "友聊";
+    private static final String appName = KEYS.get(2);
 
     public static void main(String[] args) {
         BufferedReader br = null;
@@ -51,7 +51,10 @@ public class Main {
                 BigInteger index = new BigInteger("0");
                 while ((s = br.readLine()) != null) {
                     index = index.add(new BigInteger("1"));
-                    DictionaryThreadPoolExecutor.threadPoolExecutor.execute(new DictionaryThread(new User(index, appName, userName, s)));
+                    DictionaryThreadPoolExecutor.threadPoolExecutor.execute(
+                            new DictionaryThread(new User(index, appName, userName, s)
+                            )
+                    );
                 }
                 br.close();
             }
