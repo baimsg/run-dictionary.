@@ -14,9 +14,14 @@ import java.util.ArrayList;
 public class Main {
 
     /**
+     * 一次跑多少
+     */
+    public static int maxThread = 20;
+
+    /**
      * 账号
      */
-    private static final String userName = "110099";
+    private static final String userName = "baimsg";
 
     /**
      * 可登录的 app
@@ -31,6 +36,11 @@ public class Main {
         KEYS.add("探Mi");// 4
     }
 
+    /**
+     * app名字
+     */
+    private static final String appName = "友聊";
+
     public static void main(String[] args) {
         BufferedReader br = null;
         URL resource = Main.class.getResource("/password.ini");
@@ -41,7 +51,7 @@ public class Main {
                 BigInteger index = new BigInteger("0");
                 while ((s = br.readLine()) != null) {
                     index = index.add(new BigInteger("1"));
-                    DictionaryThreadPoolExecutor.threadPoolExecutor.execute(new DictionaryThread(new User(index, KEYS.get(0), userName, s)));
+                    DictionaryThreadPoolExecutor.threadPoolExecutor.execute(new DictionaryThread(new User(index, appName, userName, s)));
                 }
                 br.close();
             }

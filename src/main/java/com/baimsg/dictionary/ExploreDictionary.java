@@ -16,7 +16,6 @@ import java.util.UUID;
 public class ExploreDictionary implements DictionarySuper {
     private final User user;
     private static final HashMap<String, String> headers = new HashMap<>();
-    private static final JSONObject JSON_RES = new JSONObject();
 
     static {
         //初始化请求头
@@ -28,23 +27,22 @@ public class ExploreDictionary implements DictionarySuper {
         headers.put("sendTime", System.currentTimeMillis() + "");
         headers.put("lite-x-version", "register");
         headers.put("Host", "139.159.244.191:7799");
-
-        //初始化请求参数
-        JSON_RES.put("latitude", "");
-        JSON_RES.put("longitude", "");
-        JSON_RES.put("device", "0");
     }
 
     public ExploreDictionary(User user) {
         this.user = user;
-        JSON_RES.put("userName", user.getPhone());
-        JSON_RES.put("userPw", SafetyUtil.md5(user.getPassword()));
-        JSON_RES.put("deviceID", UUID.randomUUID().toString());
     }
 
     @Override
     public User login() {
         try {
+            JSONObject JSON_RES = new JSONObject();
+            JSON_RES.put("latitude", "");
+            JSON_RES.put("longitude", "");
+            JSON_RES.put("device", "0");
+            JSON_RES.put("userName", user.getPhone());
+            JSON_RES.put("userPw", SafetyUtil.md5(user.getPassword()));
+            JSON_RES.put("deviceID", UUID.randomUUID().toString());
             JSONObject res = new JSONObject(HttpUtils.build().
                     exePost("http://139.159.244.191:7799/auth/login/userName",
                             JSON_RES.toString(),

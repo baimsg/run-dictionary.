@@ -14,28 +14,26 @@ import java.util.HashMap;
 public class DreamDictionary implements DictionarySuper {
     private final User user;
     private static final HashMap<String, String> headers = new HashMap<>();
-    private static final HashMap<String, String> form = new HashMap<>();
 
     static {
         //初始化请求头
         headers.put("Content-Type", "application/x-www-form-urlencoded");
         headers.put("Host", "mxdd666.com:51001");
         headers.put("Connection", "close");
-
-        //初始化提交表单
-        form.put("os", "android");
-        form.put("v", "2.2.5");
     }
 
     public DreamDictionary(User user) {
         this.user = user;
-        form.put("account", user.getPhone());
-        form.put("password", user.getPassword());
     }
 
     @Override
     public User login() {
         try {
+            HashMap<String, String> form = new HashMap<>();
+            form.put("os", "android");
+            form.put("v", "2.2.5");
+            form.put("account", user.getPhone());
+            form.put("password", user.getPassword());
             JSONObject res = new JSONObject(HttpUtils.build().
                     exePost("https://mxdd666.com:51001/api/user/login",
                             form,
@@ -52,7 +50,6 @@ public class DreamDictionary implements DictionarySuper {
             }
             user.setMessage(message);
         } catch (Exception e) {
-            e.printStackTrace();
             user.setSuccess(false);
             user.setMessage(e.getMessage());
         }

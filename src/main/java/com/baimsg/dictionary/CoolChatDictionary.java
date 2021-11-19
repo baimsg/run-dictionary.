@@ -15,7 +15,6 @@ import java.util.HashMap;
 public class CoolChatDictionary implements DictionarySuper {
     private final User user;
     private static final HashMap<String, String> headers = new HashMap<>();
-    private static final JSONObject JSON_RES = new JSONObject();
 
     static {
         //初始化请求头
@@ -26,13 +25,14 @@ public class CoolChatDictionary implements DictionarySuper {
 
     public CoolChatDictionary(User user) {
         this.user = user;
-        JSON_RES.put("username", user.getPhone());
-        JSON_RES.put("pwd", SafetyUtil.md5(user.getPassword()));
     }
 
     @Override
     public User login() {
         try {
+            JSONObject JSON_RES = new JSONObject();
+            JSON_RES.put("username", user.getPhone());
+            JSON_RES.put("pwd", SafetyUtil.md5(user.getPassword()));
             JSONObject res = new JSONObject(HttpUtils.build().
                     exePost("https://liaotianshi2022.com/api/im/imuser/login",
                             JSON_RES.toString(),

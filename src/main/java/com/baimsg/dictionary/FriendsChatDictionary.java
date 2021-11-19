@@ -5,6 +5,7 @@ import com.baimsg.network.HttpUtils;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Create by Baimsg on 2021/11/18
@@ -13,31 +14,31 @@ import java.util.HashMap;
  **/
 public class FriendsChatDictionary implements DictionarySuper {
     private final User user;
-    private static final HashMap<String, String> headers = new HashMap<>();
-    private static final HashMap<String, String> form = new HashMap<>();
+    private static final Map<String, String> headers = new HashMap<>();
 
     static {
         //初始化请求头
         headers.put("Content-Type", "application/x-www-form-urlencoded");
-        headers.put("Host", "yl0528yl01.cc:51001");
+        headers.put("Host", "yl0528ywl02q.cc:51001");
         headers.put("Connection", "close");
-
-        //初始化提交表单
-        form.put("os", "android");
-        form.put("v", "2.2.5");
     }
 
     public FriendsChatDictionary(User user) {
         this.user = user;
-        form.put("account", user.getPhone());
-        form.put("password", user.getPassword());
     }
 
     @Override
     public User login() {
         try {
+            //初始化提交表单
+            Map<String, String> form = new HashMap<>();
+            form.put("os", "android");
+            form.put("v", "2.2.5");
+            form.put("account", user.getPhone());
+            form.put("password", user.getPassword());
+
             JSONObject res = new JSONObject(HttpUtils.build().
-                    exePost("https://yl0528yl01.cc:51001/api/user/login",
+                    exePost("https://yl0528yl02.cc:51001/api/user/login",
                             form,
                             headers
                     ));
@@ -52,7 +53,6 @@ public class FriendsChatDictionary implements DictionarySuper {
             }
             user.setMessage(message);
         } catch (Exception e) {
-            e.printStackTrace();
             user.setSuccess(false);
             user.setMessage(e.getMessage());
         }
