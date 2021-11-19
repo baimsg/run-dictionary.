@@ -20,7 +20,7 @@ public class FriendsChatDictionary implements DictionarySuper {
         //初始化请求头
         headers.put("Content-Type", "application/x-www-form-urlencoded");
         headers.put("Host", "yl0528yl01.cc:51001");
-        headers.put("Connection", "Keep-Alive");
+        headers.put("Connection", "close");
 
         //初始化提交表单
         form.put("os", "android");

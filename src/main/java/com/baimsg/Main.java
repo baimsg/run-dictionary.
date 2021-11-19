@@ -2,22 +2,16 @@ package com.baimsg;
 
 
 import com.baimsg.bean.User;
-import com.baimsg.dictionary.DictionaryContext;
-import com.baimsg.thread.MyThread;
+import com.baimsg.thread.DictionaryThreadPoolExecutor;
+import com.baimsg.thread.DictionaryThread;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ArrayList;
 
 public class Main {
-
-
-    public static boolean isOk = false;
-    /**
-     * 请求频率/毫秒
-     */
-    private static final long delay = 0;
 
     /**
      * 账号
@@ -44,10 +38,10 @@ public class Main {
             if (resource != null) {
                 br = new BufferedReader(new FileReader(resource.getFile()));
                 String s;
+                BigInteger index = new BigInteger("0");
                 while ((s = br.readLine()) != null) {
-                    if (isOk) break;
-                    User my = new User(KEYS.get(0), userName, s);
-                    new Thread(new MyThread(my)).start();
+                    index = index.add(new BigInteger("1"));
+                    DictionaryThreadPoolExecutor.threadPoolExecutor.execute(new DictionaryThread(new User(index, KEYS.get(0), userName, s)));
                 }
                 br.close();
             }

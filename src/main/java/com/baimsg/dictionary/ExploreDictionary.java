@@ -20,6 +20,7 @@ public class ExploreDictionary implements DictionarySuper {
 
     static {
         //初始化请求头
+        headers.put("Connection", "close");
         headers.put("Accept", "application/json");
         headers.put("Content-Type", "application/json");
         headers.put("version", "1.0.0");

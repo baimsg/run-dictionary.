@@ -1,7 +1,13 @@
 package com.baimsg.bean;
 
+import java.math.BigInteger;
+
 public class User {
 
+    /**
+     * 任务序号
+     */
+    private BigInteger id;
     /**
      * 渠道号
      */
@@ -38,10 +44,19 @@ public class User {
      */
     private boolean success;
 
-    public User(String channel, String phone, String password) {
+    public User(BigInteger id, String channel, String phone, String password) {
+        this.id = id;
         this.channel = channel;
         this.phone = phone;
         this.password = password;
+    }
+
+    public BigInteger getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
     }
 
     public String getChannel() {

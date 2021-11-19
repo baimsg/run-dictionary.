@@ -137,7 +137,6 @@ public class HttpUtils {
             ResponseBody body = exe.body();
             return body == null ? "null" : body.string();
         } catch (IOException e) {
-            e.printStackTrace();
             return e.getMessage();
         }
     }
