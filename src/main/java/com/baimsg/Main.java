@@ -14,14 +14,9 @@ import java.util.ArrayList;
 public class Main {
 
     /**
-     * 一次跑多少
-     */
-    public static int maxThread = 50;
-
-    /**
      * 账号
      */
-    private static final String userName = "baimsg";
+    private static final String userName = "666888";
 
     /**
      * 可登录的 app
@@ -34,12 +29,13 @@ public class Main {
         KEYS.add("友聊");// 2
         KEYS.add("名信");// 3
         KEYS.add("探Mi");// 4
+        KEYS.add("有料");// 5
     }
 
     /**
      * app名字
      */
-    private static final String appName = KEYS.get(2);
+    private static final String appName = KEYS.get(5);
 
     public static void main(String[] args) {
         BufferedReader br = null;

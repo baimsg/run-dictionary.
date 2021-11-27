@@ -1,19 +1,11 @@
 package com.baimsg.network;
 
 import okhttp3.*;
-import okhttp3.internal.platform.Platform;
 import org.jetbrains.annotations.NotNull;
 
-import javax.net.ssl.*;
 import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * create by baimsg 2021/11/17

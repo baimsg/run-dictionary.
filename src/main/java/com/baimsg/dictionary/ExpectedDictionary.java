@@ -9,11 +9,13 @@ import java.util.HashMap;
 import java.util.UUID;
 
 /**
- * Create by Baimsg on 2021/11/18
+ * create by baimsg 2021/11/27
+ * Email 1469010683@qq.com
  * <p>
- * 探Mi登录实现类
+ * 有料登录实现类
  **/
-public class ExploreDictionary implements DictionarySuper {
+public class ExpectedDictionary implements DictionarySuper {
+
     private final User user;
     private static final HashMap<String, String> headers = new HashMap<>();
 
@@ -26,10 +28,9 @@ public class ExploreDictionary implements DictionarySuper {
         headers.put("device", "0");
         headers.put("sendTime", System.currentTimeMillis() + "");
         headers.put("lite-x-version", "register");
-//        headers.put("Host", "139.159.244.191:7799");
+//        headers.put("Host", "120.79.122.204");
     }
-
-    public ExploreDictionary(User user) {
+    public ExpectedDictionary(User user) {
         this.user = user;
     }
 
@@ -40,11 +41,12 @@ public class ExploreDictionary implements DictionarySuper {
             JSON_RES.put("latitude", "");
             JSON_RES.put("longitude", "");
             JSON_RES.put("device", "0");
+            JSON_RES.put("deviceInfo", "Xiaomi");
             JSON_RES.put("userName", user.getPhone());
             JSON_RES.put("userPw", SafetyUtil.md5(user.getPassword()));
             JSON_RES.put("deviceID", UUID.randomUUID().toString());
             JSONObject res = new JSONObject(HttpUtils.build().
-                    exePost("http://139.159.244.191:7799/auth/login/userName",
+                    exePost("http://120.79.122.204/auth/login/userName",
                             JSON_RES.toString(),
                             headers
                     ));
@@ -65,5 +67,4 @@ public class ExploreDictionary implements DictionarySuper {
         }
         return user;
     }
-
 }

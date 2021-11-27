@@ -13,6 +13,9 @@ public class DictionaryContext {
 
     public DictionaryContext(User user) {
         switch (user.getChannel()) {
+            case "有料":
+                ds = new ExpectedDictionary(user);
+                break;
             case "酷聊":
                 ds = new CoolChatDictionary(user);
                 break;

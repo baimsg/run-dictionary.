@@ -33,7 +33,6 @@ public class User {
      */
     private String token;
 
-
     /**
      * 提示信息
      */
@@ -43,6 +42,11 @@ public class User {
      * 登录成功标识
      */
     private boolean success;
+
+    /**
+     * 错误码
+     */
+    private int code;
 
     public User(BigInteger id, String channel, String phone, String password) {
         this.id = id;
@@ -116,4 +120,11 @@ public class User {
         this.success = success;
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
 }

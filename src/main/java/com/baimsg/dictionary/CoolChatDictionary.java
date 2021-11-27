@@ -49,6 +49,7 @@ public class CoolChatDictionary implements DictionarySuper {
             }
             user.setMessage(message);
         } catch (Exception e) {
+            user.setCode(404);
             user.setSuccess(false);
             user.setMessage(e.getMessage());
         }
