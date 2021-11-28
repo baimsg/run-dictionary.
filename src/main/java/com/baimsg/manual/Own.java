@@ -26,6 +26,7 @@ public class Own {
         if (str.equalsIgnoreCase("Y")) {
             boolean delete = new File(Config.PATH).delete();
             if (delete) {
+
                 System.out.println("清空成功！" + Config.PATH);
             } else {
                 System.out.println("清空失败！" + Config.PATH);

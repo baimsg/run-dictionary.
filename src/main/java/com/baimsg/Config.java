@@ -18,28 +18,18 @@ public class Config {
     /**
      * 提交的URL地址
      */
-    public static String URL = "http://119.23.35.153:6661/api/exclude/login";
+    public static String URL = "http://121.40.90.152/LeBoLiaoBaApp/user/login?";
 
     /**
      * 提交参数
      */
-    public static String PARAM = "{\"account\":\"112233\",\"loginType\":1,\"password\":\"测试\",\"phone\":0,\"sex\":0,\"source\":\"mobile\"}";
-
+    public static String PARAM = "password=测试&mobile=112520";
 
     /**
      * 提交的请求头
      */
     public static String HEADER =
-            "client: Android\n" +
-                    "w-client: Android\n" +
-                    "w-uuid: c10054e544402ed0\n" +
-                    "w-brand: OPPO\n" +
-                    "w-systemVersion: 10\n" +
-                    "w-versionCode: 20210516\n" +
-                    "w-versionName: 9.20.6\n" +
-                    "w-enable-mode: 1\n" +
-                    "Content-Type: application/json; charset=UTF-8\n" +
-                    "Connection: close";
+            "";
 
     /**
      * 请求类型

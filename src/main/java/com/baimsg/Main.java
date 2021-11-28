@@ -16,7 +16,7 @@ public class Main {
     /**
      * 账号
      */
-    private static final String userName = "666888";
+    private static final String userName = "a123456";
 
     /**
      * 可登录的 app
@@ -30,12 +30,16 @@ public class Main {
         KEYS.add("名信");// 3
         KEYS.add("探Mi");// 4
         KEYS.add("有料");// 5
+        KEYS.add("e信");// 6
+        KEYS.add("叮当");// 7
+        KEYS.add("蘑菇云");// 8
+        KEYS.add("传信");// 9
     }
 
     /**
      * app名字
      */
-    private static final String appName = KEYS.get(5);
+    private static final String appName = KEYS.get(9);
 
     public static void main(String[] args) {
         BufferedReader br = null;
@@ -66,6 +70,5 @@ public class Main {
             }
         }
     }
-
 
 }

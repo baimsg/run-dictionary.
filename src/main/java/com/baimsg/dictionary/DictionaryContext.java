@@ -13,8 +13,21 @@ public class DictionaryContext {
 
     public DictionaryContext(User user) {
         switch (user.getChannel()) {
+            case "传信":
+                ds = new SignalingDictionary(user);
+                break;
             case "有料":
                 ds = new ExpectedDictionary(user);
+                break;
+            case "叮当":
+                ds = new JingleDictionary(user);
+                break;
+            case "蘑菇云":
+                ds = new MushroomCloudDictionary(user);
+                break;
+            case "e信":
+            case "E信":
+                ds = new ELetterDictionary(user);
                 break;
             case "酷聊":
                 ds = new CoolChatDictionary(user);

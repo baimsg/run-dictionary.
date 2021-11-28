@@ -1,5 +1,6 @@
 package com.baimsg.utils;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 /**
@@ -33,6 +34,25 @@ public class SafetyUtil {
             builder.append(HEX_DIGITS[b & 0xf]);
         }
         return builder.toString();
+    }
+
+
+    public static String shaEncode(String str) {
+        try {
+            byte[] digest = MessageDigest.getInstance("SHA").digest(str.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuffer = new StringBuilder();
+            for (byte b : digest) {
+                if ((int) b < 16) {
+                    stringBuffer.append(0);
+                }
+                stringBuffer.append(Integer.toHexString(b));
+            }
+            return stringBuffer.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.printStackTrace();
+            return "";
+        }
     }
 
 

@@ -47,6 +47,7 @@ public class SimpleThread implements Runnable {
                 HashMap<String, String> forms = new HashMap<>();
                 for (String str : param.split("\\&")) {
                     String[] arg = str.split("=");
+                    if (arg.length < 2) return;
                     forms.put(arg[0], arg[1]);
                 }
                 body = HttpUtils.build().exePost(Config.URL, forms, headers);
