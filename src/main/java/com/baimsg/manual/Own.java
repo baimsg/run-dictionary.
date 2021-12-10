@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.math.BigInteger;
 import java.net.URL;
-import java.util.Scanner;
 
 /**
  * create by baimsg 2021/11/26
@@ -20,17 +19,21 @@ import java.util.Scanner;
 public class Own {
 
     public static void main(String[] args) {
-        System.err.println("是否清空上次的记录？\n输入 Y 清空\t回车不清空");
-        Scanner scanner = new Scanner(System.in);
-        String str = scanner.nextLine();
-        if (str.equalsIgnoreCase("Y")) {
-            boolean delete = new File(Config.PATH).delete();
-            if (delete) {
+//        System.err.println("是否清空上次的记录？\n输入 Y 清空\t回车不清空");
+//        Scanner scanner = new Scanner(System.in);
+//        String str = scanner.nextLine();
+//        if (str.equalsIgnoreCase("Y")) {
+//            boolean delete = new File(Config.PATH).delete();
+//            if (delete) {
+//
+//                System.out.println("清空成功！" + Config.PATH);
+//            } else {
+//                System.out.println("清空失败！" + Config.PATH);
+//            }
+//        }
 
-                System.out.println("清空成功！" + Config.PATH);
-            } else {
-                System.out.println("清空失败！" + Config.PATH);
-            }
+        if (new File(Config.PATH).delete()) {
+            System.out.println("数据已清空！");
         }
         BufferedReader br = null;
         URL resource = com.baimsg.Main.class.getResource("/password.ini");
