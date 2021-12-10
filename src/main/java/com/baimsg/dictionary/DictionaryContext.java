@@ -13,6 +13,9 @@ public class DictionaryContext {
 
     public DictionaryContext(User user) {
         switch (user.getChannel()) {
+            case "呱呱":
+                ds = new GuaGuaDictionary(user);
+                break;
             case "传信":
                 ds = new SignalingDictionary(user);
                 break;

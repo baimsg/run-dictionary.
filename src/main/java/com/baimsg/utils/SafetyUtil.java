@@ -37,6 +37,13 @@ public class SafetyUtil {
     }
 
 
+    /**
+     * SHA加密
+     * "a060e77c5a8485aeb061aee5d7f8fa709acb4473" + "123456"
+     *
+     * @param str 加密内容
+     * @return 密文
+     */
     public static String shaEncode(String str) {
         try {
             byte[] digest = MessageDigest.getInstance("SHA").digest(str.getBytes(StandardCharsets.UTF_8));

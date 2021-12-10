@@ -2,8 +2,8 @@ package com.baimsg;
 
 
 import com.baimsg.bean.User;
-import com.baimsg.thread.DictionaryThreadPoolExecutor;
 import com.baimsg.thread.DictionaryThread;
+import com.baimsg.thread.DictionaryThreadPoolExecutor;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,7 +16,7 @@ public class Main {
     /**
      * 账号
      */
-    private static final String userName = "a123456";
+    private static final String userName = "baismg";
 
     /**
      * 可登录的 app
@@ -34,12 +34,13 @@ public class Main {
         KEYS.add("叮当");// 7
         KEYS.add("蘑菇云");// 8
         KEYS.add("传信");// 9
+        KEYS.add("呱呱");// 10
     }
 
     /**
      * app名字
      */
-    private static final String appName = KEYS.get(9);
+    private static final String appName = KEYS.get(10);
 
     public static void main(String[] args) {
         BufferedReader br = null;
