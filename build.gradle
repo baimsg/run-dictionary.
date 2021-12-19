@@ -10,8 +10,11 @@ repositories {
 }
 
 dependencies {
+    implementation(fileTree(dir:   "lib" ,includes: ["*jar"]))
+    implementation 'org.jsoup:jsoup:1.14.3'
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'org.json:json:20210307'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 

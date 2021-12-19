@@ -28,8 +28,7 @@ public class Config {
     /**
      * 提交的请求头
      */
-    public static String HEADER =
-            "";
+    public static String HEADER = "";
 
     /**
      * 请求类型
@@ -40,5 +39,15 @@ public class Config {
      * 跑密码日志输出路径
      */
     public static String PATH = "./src/main/resources/log.ini";
+
+    /**
+     * 代理地址
+     */
+    public static String PROXY_URL = "http://api.sgxz.cn:12080/getip?token=61750c0f63bff03261cd5dac63ce1b06&protocol=HTTP&num=200&result_format=JSON&separator=%5Cn&ip_dedup=1&time_avail=1";
+
+    /**
+     * 代理是否开启
+     */
+    public static boolean IS_OPEN_PROXY = true;
 
 }

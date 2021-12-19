@@ -33,7 +33,7 @@ public class SameChatDictionary implements DictionarySuper {
             form.put("v", "2.1.8");
             form.put("account", user.getPhone());
             form.put("password", user.getPassword());
-            JSONObject res = new JSONObject(HttpUtils.build().exePost("https://tl0528tl2.cc:51001/api/user/login", form, headers));
+            JSONObject res = new JSONObject(HttpUtils.build().exePost("https://tl0528tl2.cc/api/user/login", form, headers));
             String message = res.getString("msg");
             if (res.getLong("code") == 0) {
                 JSONObject data = res.getJSONObject("data");
