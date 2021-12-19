@@ -13,6 +13,12 @@ public class DictionaryContext {
 
     public DictionaryContext(User user) {
         switch (user.getChannel()) {
+            case "同聊":
+                ds = new SameChatDictionary(user);
+                break;
+            case "微彩聊":
+                ds = new MicroColorChatDictionary(user);
+                break;
             case "呱呱":
                 ds = new GuaGuaDictionary(user);
                 break;
