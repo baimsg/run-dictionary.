@@ -17,7 +17,7 @@ public class SameChatDictionary implements DictionarySuper {
     static {
         //初始化请求头
         headers.put("Content-Type", "application/x-www-form-urlencoded");
-        headers.put("Connection", "close");
+        headers.put("Connection", "Keep-Alive");
     }
 
     public SameChatDictionary(User user) {
@@ -33,7 +33,7 @@ public class SameChatDictionary implements DictionarySuper {
             form.put("v", "2.1.8");
             form.put("account", user.getPhone());
             form.put("password", user.getPassword());
-            JSONObject res = new JSONObject(HttpUtils.build().exePost("https://tl0528tl2.cc/api/user/login", form, headers));
+            JSONObject res = new JSONObject(HttpUtils.build().exePost("https://tl0528tl2.cc:51001/api/user/login", form, headers));
             String message = res.getString("msg");
             if (res.getLong("code") == 0) {
                 JSONObject data = res.getJSONObject("data");
