@@ -1,38 +1,35 @@
 package com.baimsg
 
-import java.io.FileReader
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.FileInputStream
 import java.nio.charset.Charset
 import java.util.*
 
 fun main() {
-    val fw = FileReader("./src/main/resources/body.txt")
+    val fw = FileInputStream("./src/main/resources/img_1.png")
     val bytes = ByteArray(57)
     val sb = StringBuilder()
-    var size = 0
-    var index = 0
-    var byteread = 0
-//    while (fw.read(bytes).also { byteread = it } != -1) {
-////        println(bytes.to())
-//        sb.append(String(bytes, 0, byteread).toByteArray().encodeBase64()+"\n")
-//    }
-    fw.readLines().forEach {
-        println("编码："+it.length)
-        println("原码："+Base64.getMimeDecoder().decode(it).size)
+    var byteread: Int
+    while (fw.read(bytes).also { byteread = it } != -1) {
+        val newByte = ByteArray(byteread)
+        System.arraycopy(bytes, 0, newByte, 0, byteread)
+        sb.append(newByte.encodeBase64() + "\n")
     }
-    println()
-//    val con = Jsoup.connect("https://aidemo.youdao.com/ocr_question")
-//        con. ignoreContentType (true)
-//        con.requestBody("imgBase=data:image/png;base64,${fw.readAllBytes().to()}")
-//    println(
-//        con.post().body().text()
-//    )
-//    val client = OkHttpClient.Builder().build()
-//    val request: Request = Request.Builder().url("https://aidemo.youdao.com/ocr_question")
-//        .post(fw.readAllBytes().to().toRequestBody())
-//        .build()
-//
-//    val exe = client.newCall(request).execute()
-//    println(exe.body?.bytes()?.to())
+    println(sb)
+    val client = OkHttpClient.Builder().build()
+    val request: Request = Request.Builder().url("https://aidemo.youdao.com/ocr_question").post(
+        "imgBase=data:image/png;base64,${
+            sb.toString().trim()
+        }".toRequestBody("application/x-www-form-urlencoded; charset=utf-8".toMediaTypeOrNull())
+    ).build()
+
+    val exe = client.newCall(request).execute()
+    println(exe.body?.bytes()?.to())
 
 }
 
