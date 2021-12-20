@@ -18,12 +18,12 @@ public class Config {
     /**
      * 提交的URL地址
      */
-    public static String URL = "http://121.40.90.152/LeBoLiaoBaApp/user/login?";
+    public static String URL = "http://api.zaota.xyz:18655/api/im/loginapis?";
 
     /**
      * 提交参数
      */
-    public static String PARAM = "password=测试&mobile=112520";
+    public static String PARAM = "telephone=110099&password=测试&sign=4cbe73097d9bc92b5bacd2eae4e8b186&timestamp=1640017111";
 
     /**
      * 提交的请求头
@@ -49,5 +49,10 @@ public class Config {
      * 代理是否开启
      */
     public static boolean IS_OPEN_PROXY = true;
+
+    /**
+     * 代理刷新的延迟时间（单位毫秒/1000=1秒）
+     */
+    public static long PROXY_TIME_DELAY = 1000 * 3;
 
 }

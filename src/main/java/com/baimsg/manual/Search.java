@@ -1,4 +1,6 @@
-package com.baimsg;
+package com.baimsg.manual;
+
+import com.baimsg.Config;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

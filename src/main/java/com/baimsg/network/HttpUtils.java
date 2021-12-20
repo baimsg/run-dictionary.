@@ -29,13 +29,49 @@ public class HttpUtils {
         headers.put("Connection", "close");
         if (Config.IS_OPEN_PROXY) {
             System.err.println("正在加载代理IP...");
-            ProxyBean proxy = new Gson().fromJson(HttpUtils.build().exeGet(Config.PROXY_URL), ProxyBean.class);
-            if (proxy != null) {
-                if (proxy.getState() == 0) {
-                    System.err.println("代理IP加载成功!");
-                    proxyList = proxy.getData();
+            //加载代理IP
+            loadProxy();
+            //开启自动刷新代理IP
+            startRefreshProxy();
+        }
+    }
+
+    /**
+     * 加载代理IP地址和端口（自动刷新的）
+     */
+    private static void startRefreshProxy() {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(Config.PROXY_TIME_DELAY);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                loadProxy();
+            }
+        }).start();
+
+    }
+
+    /**
+     * 刷新代理IP
+     */
+    private static void loadProxy() {
+        Request request = new Request.Builder().get().url(Config.PROXY_URL).headers(Headers.of(headers)).build();
+        try {
+            Response exe = new OkHttpClient.Builder().build().newCall(request).execute();
+            ResponseBody body = exe.body();
+            if (body != null) {
+                ProxyBean proxy = new Gson().fromJson(new String(body.bytes()), ProxyBean.class);
+                if (proxy != null) {
+                    if (proxy.getState() == 0) {
+                        System.err.println("[IP] 刷新!");
+                        proxyList = proxy.getData();
+                    }
                 }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -155,7 +191,6 @@ public class HttpUtils {
             exe.close();
             return data;
         } catch (IOException e) {
-            System.out.println(e);
             return e.getMessage();
         }
     }
