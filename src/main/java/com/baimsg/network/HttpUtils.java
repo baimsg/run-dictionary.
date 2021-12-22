@@ -27,7 +27,7 @@ public class HttpUtils {
 
     static {
         headers.put("Connection", "close");
-        if (Config.IS_OPEN_PROXY) {
+        if (Config.IS_OPEN_PROXY == 1) {
             System.err.println("正在加载代理IP...");
             //加载代理IP
             loadProxy();

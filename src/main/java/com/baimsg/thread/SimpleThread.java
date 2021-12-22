@@ -2,6 +2,7 @@ package com.baimsg.thread;
 
 import com.baimsg.Config;
 import com.baimsg.network.HttpUtils;
+import com.baimsg.utils.SafetyUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -31,7 +32,16 @@ public class SimpleThread implements Runnable {
 
     @Override
     public void run() {
-        String param = Config.PARAM.replaceFirst("测试", password);
+        login(0);
+    }
+
+    /**
+     * 登录方法是独立（递归实现重试）
+     *
+     * @param retry 请求次数
+     */
+    private void login(int retry) {
+        String param = Config.PARAM.replaceFirst("测试", Config.ASK_MODE == 1 ? SafetyUtil.md5(password) : password);
         HashMap<String, String> headers = new HashMap<>();
         if (!Config.HEADER.isEmpty()) {
             for (String str : Config.HEADER.split("\n")) {
@@ -45,7 +55,7 @@ public class SimpleThread implements Runnable {
         } else {
             if (Config.type.equalsIgnoreCase("POST")) {
                 HashMap<String, String> forms = new HashMap<>();
-                for (String str : param.split("\\&")) {
+                for (String str : param.split("&")) {
                     String[] arg = str.split("=");
                     if (arg.length < 2) return;
                     forms.put(arg[0], arg[1]);
@@ -55,10 +65,19 @@ public class SimpleThread implements Runnable {
                 body = HttpUtils.build().exeGet(Config.URL + "?" + param, headers);
             }
         }
-        String msg = index + "\t密码：" + password + "\t" + body;
-        outLog(msg);
-
-        System.out.println(msg);
+        String msg = index + "\t密码：" + password;
+        if (isJson(body)) {
+            outLog(msg + "\t" + body);
+            System.out.println(msg + "\t" + body);
+        } else {
+            if (retry < Config.RETRY) {
+                retry++;
+                System.out.println("第" + retry + "次重试ing\t" + msg);
+                login(retry);
+            } else {
+                System.out.println(msg + "\t请求失败！");
+            }
+        }
     }
 
     private void outLog(String msg) {

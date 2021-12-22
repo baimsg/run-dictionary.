@@ -31,7 +31,6 @@ public class Own {
 //                System.out.println("清空失败！" + Config.PATH);
 //            }
 //        }
-
         if (new File(Config.PATH).delete()) {
             System.out.println("数据已清空！");
         }
