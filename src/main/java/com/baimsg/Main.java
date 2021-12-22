@@ -37,12 +37,13 @@ public class Main {
         KEYS.add("呱呱");// 10
         KEYS.add("同聊");// 11
         KEYS.add("微彩聊");// 12
+        KEYS.add("微聊");// 13
     }
 
     /**
      * app名字
      */
-    private static final String appName = KEYS.get(12);
+    private static final String appName = KEYS.get(13);
 
     public static void main(String[] args) {
         BufferedReader br = null;
@@ -54,10 +55,7 @@ public class Main {
                 BigInteger index = new BigInteger("0");
                 while ((s = br.readLine()) != null) {
                     index = index.add(new BigInteger("1"));
-                    DictionaryThreadPoolExecutor.threadPoolExecutor.execute(
-                            new DictionaryThread(new User(index, appName, userName, s)
-                            )
-                    );
+                    DictionaryThreadPoolExecutor.threadPoolExecutor.execute(new DictionaryThread(new User(index, appName, userName, s)));
                 }
                 br.close();
             }

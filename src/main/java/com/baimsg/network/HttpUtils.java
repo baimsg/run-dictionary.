@@ -67,6 +67,8 @@ public class HttpUtils {
                     if (proxy.getState() == 0) {
                         System.err.println("[IP] 刷新!");
                         proxyList = proxy.getData();
+                    } else {
+                        System.err.println("[IP] " + proxy.getMsg());
                     }
                 }
             }
