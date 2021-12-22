@@ -13,6 +13,9 @@ public class DictionaryContext {
 
     public DictionaryContext(User user) {
         switch (user.getChannel()) {
+            case "微聊":
+                ds = new TinyChatDictionary(user);
+                break;
             case "同聊":
                 ds = new SameChatDictionary(user);
                 break;
