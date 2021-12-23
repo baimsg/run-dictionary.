@@ -67,8 +67,8 @@ public class SimpleThread implements Runnable {
         }
         String msg = index + "\t密码：" + password;
         if (isJson(body)) {
-            outLog(msg + "\t" + body);
-            System.out.println(msg + "\t" + body);
+            outLog(msg + "\t" + new JSONObject(body));
+            System.out.println(msg + "\t" + new JSONObject(body));
         } else {
             if (retry < Config.RETRY) {
                 retry++;
