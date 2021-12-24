@@ -16,19 +16,20 @@ public class Config {
     public static int RETRY = 5;
 
     /**
-     * 是否尝试使用加密模式 (0是未加密模式  1是加密模式)
-     */
-    public static int ASK_MODE = 1;
-
-    /**
      * 提交的URL地址
      */
     public static String URL = "https://liaotianshi2022.com/api/im/imuser/login?";
 
     /**
      * 提交参数
+     * 密码填参数说明：
+     * 第一种：普通密码 就是没有加密的密码
+     * 第二种：加密密码 就是密码需要加密的
+     * 账号填参数说明：
+     * 第一种：直接填账号 比如 121254088 就是不加密的
+     * 第二种：[加密:账号] 比如 [加密:121254088] 就是账号需要加密的
      */
-    public static String PARAM = "{\"username\":\"110099\",\"pwd\":\"测试\"}";
+    public static String PARAM = "{\"username\":\"121254088\",\"pwd\":\"普通密码\"}";
 
     /**
      * 提交的请求头

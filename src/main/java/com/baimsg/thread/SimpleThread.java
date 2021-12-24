@@ -41,7 +41,16 @@ public class SimpleThread implements Runnable {
      * @param retry 请求次数
      */
     private void login(int retry) {
-        String param = Config.PARAM.replaceFirst("测试", Config.ASK_MODE == 1 ? SafetyUtil.md5(password) : password);
+        String param = Config.PARAM;
+        if (param.contains("[加密:")) {
+            String userid = param.replaceAll("[\\s\\S]+\\[加密:(.+)][\\s\\S]+", "$1");
+             param = param.replaceAll("\\[加密:.+]", SafetyUtil.md5(userid));
+        }
+        if (param.contains("加密密码")) {
+            param = param.replaceFirst("加密密码", SafetyUtil.md5(password));
+        } else {
+            param = param.replaceFirst("普通密码", password);
+        }
         HashMap<String, String> headers = new HashMap<>();
         if (!Config.HEADER.isEmpty()) {
             for (String str : Config.HEADER.split("\n")) {
