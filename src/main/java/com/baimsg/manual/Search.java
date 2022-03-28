@@ -1,8 +1,10 @@
 package com.baimsg.manual;
 
 import com.baimsg.Config;
+import com.baimsg.utils.extension.FileExtensionKt;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,27 +17,22 @@ import java.util.Map;
  **/
 public class Search {
     public static void main(String[] args) {
-        FileReader fr;
-        try {
-            fr = new FileReader(Config.PATH);
-            BufferedReader br = new BufferedReader(fr);
-            String line;
-            Map<String, String> dics = new HashMap<>();
-            while ((line = br.readLine()) != null) {
-                if (!line.startsWith("#")) {
-                    String[] strs = line.split("\t");
-                    if (!dics.containsKey(strs[2])) {
-                        dics.put(strs[2], strs[1]);
-                        System.out.println(line);
+        for (String userName : Config.userNames) {
+            File output = FileExtensionKt.appendPath(FileExtensionKt.toFile(Config.OUT_PATH), userName + ".ini");
+            if (output.isFile()) {
+                Map<String, String> dics = new HashMap<>();
+                System.out.println(output.getName());
+                for (String line : FileExtensionKt.readLines(output)) {
+                    if (!line.startsWith("#")) {
+                        String[] strs = line.split("\t");
+                        if (!dics.containsKey(strs[2])) {
+                            dics.put(strs[2], strs[1]);
+                            System.out.println(line);
+                        }
                     }
                 }
             }
-            br.close();
-            fr.close();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
 
     }
 }

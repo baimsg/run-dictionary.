@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class DictionaryPolicy implements RejectedExecutionHandler {
     @Override
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-        System.out.println(r + "被拒绝执行");
+        System.out.println(r+ "被拒绝执行");
         if (!executor.isShutdown()) {
             r.run();
         }

@@ -3,10 +3,12 @@ package com.baimsg.thread;
 import com.baimsg.Config;
 import com.baimsg.network.HttpUtils;
 import com.baimsg.utils.SafetyUtil;
+import com.baimsg.utils.extension.FileExtensionKt;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -23,10 +25,12 @@ import java.util.Objects;
  **/
 public class SimpleThread implements Runnable {
     private final BigInteger index;
+    private final String userName;
     private final String password;
 
-    public SimpleThread(BigInteger index, String password) {
+    public SimpleThread(BigInteger index, String userName, String password) {
         this.index = index;
+        this.userName = userName;
         this.password = password;
     }
 
@@ -41,10 +45,12 @@ public class SimpleThread implements Runnable {
      * @param retry 请求次数
      */
     private void login(int retry) {
+        File output = FileExtensionKt.appendPath(FileExtensionKt.toFile(Config.OUT_PATH), userName + ".ini");
         String param = Config.PARAM;
-        if (param.contains("[加密:")) {
-            String userid = param.replaceAll("[\\s\\S]+\\[加密:(.+)][\\s\\S]+", "$1");
-             param = param.replaceAll("\\[加密:.+]", SafetyUtil.md5(userid));
+        if (param.contains("加密账号")) {
+            param = param.replaceFirst("加密账号", SafetyUtil.md5(userName));
+        } else {
+            param = param.replaceFirst("普通账号", userName);
         }
         if (param.contains("加密密码")) {
             param = param.replaceFirst("加密密码", SafetyUtil.md5(password));
@@ -76,7 +82,7 @@ public class SimpleThread implements Runnable {
         }
         String msg = index + "\t密码：" + password;
         if (isJson(body)) {
-            outLog(msg + "\t" + new JSONObject(body));
+            FileExtensionKt.append(output, msg + "\t" + new JSONObject(body));
             System.out.println(msg + "\t" + new JSONObject(body));
         } else {
             if (retry < Config.RETRY) {
@@ -89,29 +95,6 @@ public class SimpleThread implements Runnable {
         }
     }
 
-    private void outLog(String msg) {
-        FileWriter fw = null;
-        BufferedWriter bw = null;
-        try {
-            fw = new FileWriter(Config.PATH, true);
-            bw = new BufferedWriter(fw);
-            bw.write(getTime());
-            bw.newLine();
-            bw.write(msg);
-            bw.newLine();
-            bw.flush();
-            fw.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                Objects.requireNonNull(bw).close();
-                fw.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     private String getTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("#yyyy-MM-dd HH:mm:ss");
