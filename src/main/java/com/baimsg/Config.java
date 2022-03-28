@@ -53,10 +53,6 @@ public class Config {
     public static String type = "POST";
 
     public static String OUT_PATH = "./src/main/resources/";
-    /**
-     * 跑密码日志输出路径
-     */
-    public static String PATH = OUT_PATH + "log.ini";
 
     /**
      * 代理地址
