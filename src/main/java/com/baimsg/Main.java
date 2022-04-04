@@ -1,22 +1,17 @@
 package com.baimsg;
 
 
-import com.baimsg.bean.User;
-import com.baimsg.thread.DictionaryThread;
-import com.baimsg.thread.DictionaryThreadPoolExecutor;
+import com.baimsg.thread.TaskThread;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.math.BigInteger;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
 
-    /**
-     * 账号
-     */
-    private static final String userName = "baimsg";
+    private static final HashMap<String, String> users = new HashMap<>();
 
     /**
      * 可登录的 app
@@ -24,6 +19,7 @@ public class Main {
     private static final ArrayList<String> KEYS = new ArrayList<>();
 
     static {
+
         KEYS.add("酷聊");// 0
         KEYS.add("梦想");// 1
         KEYS.add("友聊");// 2
@@ -38,6 +34,14 @@ public class Main {
         KEYS.add("同聊");// 11
         KEYS.add("微彩聊");// 12
         KEYS.add("微聊");// 13
+
+        //账号列表 前面账号后面app名字
+        users.put("baimsg", KEYS.get(0));
+        users.put("fuyguiho", KEYS.get(0));
+        users.put("tyojijh", KEYS.get(0));
+        users.put("pjghhbn", KEYS.get(0));
+        users.put("guriifsd", null);
+
     }
 
     /**
@@ -46,30 +50,20 @@ public class Main {
     private static final String appName = KEYS.get(13);
 
     public static void main(String[] args) {
-        BufferedReader br = null;
-        URL resource = Main.class.getResource("/password.ini");
-        try {
-            if (resource != null) {
-                br = new BufferedReader(new FileReader(resource.getFile()));
-                String s;
-                BigInteger index = new BigInteger("0");
-                while ((s = br.readLine()) != null) {
-                    index = index.add(new BigInteger("1"));
-                    DictionaryThreadPoolExecutor.threadPoolExecutor.execute(new DictionaryThread(new User(index, appName, userName, s)));
-                }
-                br.close();
-            }
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(Config.maxThread);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                assert br != null;
-                br.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (Config.LOG_PATH.isFile()) {
+            boolean delete = Config.LOG_PATH.delete();
+            if (delete) {
+                System.out.println(Config.LOG_PATH + "已清空");
             }
         }
+        for (Map.Entry<String, String> entry : users.entrySet()) {
+            String app = (entry.getValue() == null) ? appName : entry.getValue();
+            String userName = entry.getKey();
+            fixedThreadPool.execute(new TaskThread(app, userName));
+        }
+        fixedThreadPool.shutdown();
     }
 
 }

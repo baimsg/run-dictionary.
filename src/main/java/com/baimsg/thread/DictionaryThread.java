@@ -3,6 +3,7 @@ package com.baimsg.thread;
 import com.baimsg.Config;
 import com.baimsg.bean.User;
 import com.baimsg.dictionary.DictionaryContext;
+import com.baimsg.utils.extension.FileExtensionKt;
 
 /**
  * create by baimsg 2021/11/18
@@ -32,6 +33,7 @@ public class DictionaryThread implements Runnable {
         if (user.isSuccess()) {
             System.err.println(str + "\n" + user.getUserName() + " --> 登陆成功\ttoken：" + user.getToken());
             DictionaryThreadPoolExecutor.threadPoolExecutor.shutdownNow();
+            FileExtensionKt.append(Config.LOG_PATH, str + "\n" + user.getUserName() + " --> 登陆成功\ttoken：" + user.getToken());
         } else {
             if (!DictionaryThreadPoolExecutor.threadPoolExecutor.isShutdown()) {
                 if (user.getCode() == 404) {

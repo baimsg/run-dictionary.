@@ -11,6 +11,8 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * create by baimsg 2021/11/26
@@ -21,8 +23,11 @@ import java.util.Set;
 public class Own {
 
     public static void main(String[] args) {
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(Config.maxThread);
+
         for (String userName : Config.userNames) {
-            new Thread(new OwnThread(userName)).start();
+            fixedThreadPool.execute(new OwnThread(userName));
         }
+        fixedThreadPool.shutdown();
     }
 }

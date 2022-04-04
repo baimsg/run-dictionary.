@@ -1,5 +1,8 @@
 package com.baimsg;
 
+import com.baimsg.utils.extension.FileExtensionKt;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -54,6 +57,7 @@ public class Config {
 
     public static String OUT_PATH = "./src/main/resources/";
 
+    public static File LOG_PATH = FileExtensionKt.toFile(OUT_PATH + File.separator + "log.ini");
     /**
      * 代理地址
      */
