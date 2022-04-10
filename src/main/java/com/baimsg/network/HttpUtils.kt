@@ -175,7 +175,8 @@ object HttpUtils {
                 e.message
             }
         }
-        Log.e("${request.url} 连接失败！")
+
+        Log.e("[${request.method}:${request.url} ${request.body?.contentType()}] -> error")
         return null
     }
 

@@ -1,5 +1,7 @@
 package com.baimsg.common
 
+import com.baimsg.utils.extension.appendPath
+import com.baimsg.utils.extension.toFile
 import java.util.HashSet
 
 /**
@@ -8,6 +10,7 @@ import java.util.HashSet
  */
 object Config {
     var userNames = HashSet<String>()
+
     //这里填要跑的账号列表
     init {
         userNames.add("baimsg")
@@ -28,7 +31,7 @@ object Config {
     /**
      * 提交的URL地址
      */
-    var URL = "https://liaotianshi2022.com/api/im/imuser/login?"
+    var URL = "http://52.229.128.174:13215/user_s?"
 
     /**
      * 提交参数
@@ -39,12 +42,15 @@ object Config {
      * 第一种：普通账号
      * 第二种：加密账号
      */
-    var PARAM = "{\"username\":\"普通账号\",\"pwd\":\"普通密码\"}"
+    var PARAM = "account=普通账号&sign=21b0287afe5daa88777d9e3d4225e016&timestamp=1649556938"
 
     /**
      * 提交的请求头
      */
-    var HEADER = ""
+    var HEADER = "User-Agent: okhttp/3.3.1\n" +
+            "appkey: 21b0287afe5daa88777d9e3d4225e016\n" +
+            "auth: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3eCIsImF1ZCI6ImltX2FwcCIsImlhdCI6MTY0OTU1Njg1NSwibmJmIjoxNjQ5NTU2ODU1LCJleHAiOjE2NjUxMDg4NTUsInVpZCI6MzU1OTIzNTMsIm5hbWUiOiJiYWltc2cifQ.vEybz5HeYR2OuUUAkBC0x2d1-ltbKIqjRQ5UDhyxPO4\n" +
+            "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 
     /**
      * 请求类型
@@ -60,7 +66,7 @@ object Config {
     /**
      * 代理是否开启 (0 是关  1是开)
      */
-    var IS_OPEN_PROXY = 1
+    var IS_OPEN_PROXY = 0
 
     /**
      * 代理刷新的延迟时间（单位毫秒/1000=1秒）
@@ -69,4 +75,13 @@ object Config {
 
     var OUT_PATH = "./src/main/resources/"
 
+    /**
+     * 密码输出路径
+     */
+    val PASSWORD_PATH = OUT_PATH.toFile().appendPath("password")
+
+    /**
+     * 账号输出路径
+     */
+    val USER_PATH = OUT_PATH.toFile().appendPath("user")
 }

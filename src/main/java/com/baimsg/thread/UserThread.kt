@@ -5,31 +5,23 @@ import com.baimsg.network.HttpUtils
 import com.baimsg.utils.Log
 import com.baimsg.utils.extension.append
 import com.baimsg.utils.extension.appendPath
-import com.baimsg.utils.extension.toMd5
 import com.baimsg.utils.extension.validateJson
 import org.json.JSONObject
 import java.math.BigInteger
 
-
-class PasswordThread(
-    private val index: BigInteger, private val userName: String, private val password: String
-) : Runnable {
+class UserThread(private val index: BigInteger, private val userName: String) : Runnable {
     override fun run() {
-        val output = Config.PASSWORD_PATH.appendPath("${userName}.ini")
+        if (!Config.USER_PATH.exists()) {
+            Log.d("路径 -> ${Config.USER_PATH} 创建${if (Config.USER_PATH.mkdirs()) "成功" else "失败"}")
+        }
+        val output = Config.USER_PATH.appendPath("${userName}.ini")
+        if (output.isFile) {
+            output.delete()
+            Log.d("${output.name} -> 数据已清空！")
+        }
         var param = Config.PARAM
-        //处理密账号
-        param = if (param.contains("加密账号")) {
-            param.replaceFirst("加密账号", userName.toMd5())
-        } else {
-            param.replaceFirst("普通账号", userName)
-        }
-
-        //处理密码
-        param = if (param.contains("加密密码")) {
-            param.replaceFirst("加密密码", password.toMd5())
-        } else {
-            param.replaceFirst("普通密码", password)
-        }
+        //处理账号
+        param = param.replaceFirst("普通账号", userName)
 
         //处理请求头
         val headers = HashMap<String, String>()
@@ -57,12 +49,9 @@ class PasswordThread(
             }
         }
         body?.let {
-            val msg = "$index\t[$userName] -> \t密码：$password\t${JSONObject(body)}"
+            val msg = "$index\t[$userName] ->\t${JSONObject(body)}"
             output.append(msg)
             Log.i(msg)
         }
-
     }
-
-
 }
