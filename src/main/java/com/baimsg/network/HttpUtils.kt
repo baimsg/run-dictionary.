@@ -14,8 +14,11 @@ import java.net.InetSocketAddress
 import java.net.Proxy
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.math.log
 
 object HttpUtils {
+
+    var run = false
 
     private val proxyList: MutableList<ProxyInfo> = mutableListOf()
 
@@ -26,7 +29,7 @@ object HttpUtils {
     init {
         headers["Connection"] = "close"
         if (Config.IS_OPEN_PROXY == 1) {
-            System.err.println("正在加载代理IP...")
+            Log.d("[IP] -> loading")
             //加载代理IP
             loadProxy()
             //开启自动刷新代理IP
@@ -42,7 +45,7 @@ object HttpUtils {
      */
     private fun buildClient(isProxy: Boolean = true): OkHttpClient {
         if (isProxy && proxyList.isNotEmpty()) {
-            val (ip, port) = proxyList[Random().nextInt(proxyList.size - 1)]
+            val (ip, port) = proxyList.random()
             val builder = OkHttpClient.Builder()
             builder.connectTimeout(60, TimeUnit.SECONDS)
             builder.readTimeout(40, TimeUnit.SECONDS)
@@ -65,6 +68,10 @@ object HttpUtils {
     private fun startRefreshProxy() {
         Thread {
             while (true) {
+                if (!run) {
+                    Log.d("[IP] -> end")
+                    break
+                }
                 try {
                     Thread.sleep(Config.PROXY_TIME_DELAY)
                 } catch (e: InterruptedException) {
@@ -87,7 +94,7 @@ object HttpUtils {
                 val proxy = Gson().fromJson(String(body.bytes()), ProxyItem::class.java)
                 if (proxy != null) {
                     if (proxy.state == 0) {
-                        Log.d("[IP] 刷新!")
+                        Log.d("[IP] -> update!")
                         proxyList.clear()
                         proxyList.addAll(proxy.data)
                     } else {

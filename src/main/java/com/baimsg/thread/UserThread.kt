@@ -6,6 +6,7 @@ import com.baimsg.utils.Log
 import com.baimsg.utils.extension.append
 import com.baimsg.utils.extension.appendPath
 import com.baimsg.utils.extension.validateJson
+import com.baimsg.utils.extension.write
 import org.json.JSONObject
 import java.math.BigInteger
 
@@ -50,7 +51,7 @@ class UserThread(private val index: BigInteger, private val userName: String) : 
         }
         body?.let {
             val msg = "$index\t[$userName] ->\t${JSONObject(body)}"
-            output.append(msg)
+            output.write(msg)
             Log.i(msg)
         }
     }

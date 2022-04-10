@@ -14,7 +14,7 @@ fun File.clearAll() {
     this.write("", false)
 }
 
-fun File.write(obj: Any, isAppend: Boolean = true) {
+fun File.write(obj: Any, isAppend: Boolean = false) {
     var fw: FileWriter? = null
     var bw: BufferedWriter? = null
     try {

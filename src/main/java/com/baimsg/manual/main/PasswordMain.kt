@@ -1,6 +1,7 @@
 package com.baimsg.manual.main
 
 import com.baimsg.common.Config
+import com.baimsg.network.HttpUtils
 import com.baimsg.thread.PasswordThread
 import com.baimsg.thread.SimpleThreadPoolExecutor
 import com.baimsg.utils.Log
@@ -24,6 +25,13 @@ fun main() {
         fixedThreadPool.execute(OwnThread(userName))
     }
     fixedThreadPool.shutdown()
+    while (!fixedThreadPool.awaitTermination(1, TimeUnit.SECONDS)) {
+        Thread.sleep(800)
+    }
+    synchronized(OwnThread::class.java) {
+        HttpUtils.run = false
+    }
+    Log.d("-> end")
 }
 
 internal class OwnThread(private var userName: String) : Runnable {
@@ -48,7 +56,7 @@ internal class OwnThread(private var userName: String) : Runnable {
             while (!threadPool.awaitTermination(1, TimeUnit.SECONDS)) {
                 Thread.sleep(800)
             }
-            Log.d("[账号:$userName] -> end")
+            Log.d("[$userName] -> end")
         } else {
             Log.e("not fund /password.ini File")
         }

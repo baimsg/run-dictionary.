@@ -15,6 +15,10 @@ class PasswordThread(
     private val index: BigInteger, private val userName: String, private val password: String
 ) : Runnable {
     override fun run() {
+        synchronized(this) {
+            HttpUtils.run = true
+        }
+
         val output = Config.PASSWORD_PATH.appendPath("${userName}.ini")
         var param = Config.PARAM
         //处理密账号
@@ -56,8 +60,13 @@ class PasswordThread(
                 body = HttpUtils.exeGet(Config.URL + "?" + param, headers)
             }
         }
-        body?.let {
-            val msg = "$index\t[$userName] -> \t密码：$password\t${JSONObject(body)}"
+        body?.let { data ->
+            val json = try {
+                JSONObject(data)
+            } catch (e: Exception) {
+                data
+            }
+            val msg = "$index\t[$userName] -> \t密码：$password\t$json"
             output.append(msg)
             Log.i(msg)
         }
