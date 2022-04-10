@@ -1,9 +1,9 @@
 package com.baimsg.manual
 
-import com.baimsg.Config
+import com.baimsg.common.Config
 import com.baimsg.thread.DictionaryPolicy
-import com.baimsg.thread.DictionaryThreadPoolExecutor
-import com.baimsg.thread.SimpleThread
+import com.baimsg.thread.PasswordThread
+import com.baimsg.utils.Log
 import com.baimsg.utils.extension.appendPath
 import com.baimsg.utils.extension.toFile
 import java.io.BufferedReader
@@ -33,17 +33,19 @@ class OwnThread(private var userName: String) : Runnable {
         }
 
         var br: BufferedReader? = null
-        val resource = Own::class.java.getResource("/password.ini")
+        val resource = OwnThread::class.java.getResource("/password.ini")
         try {
             if (resource != null) {
                 br = BufferedReader(FileReader(resource.file))
                 var index = BigInteger("0")
                 br.readLines().forEachIndexed { _, s ->
                     index = index.add(BigInteger("1"))
-                    threadPool.execute(SimpleThread(index, userName, s))
+                    threadPool.execute(PasswordThread(index, userName, s))
                 }
                 threadPool.shutdown()
                 br.close()
+            } else {
+                Log.e("not fund /password.ini File")
             }
         } catch (e: Exception) {
             e.printStackTrace()
