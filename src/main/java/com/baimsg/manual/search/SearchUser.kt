@@ -16,6 +16,7 @@ fun main() {
             } else {
                 Log.i("不存在 -> $msg")
             }
+            file.delete()
         }
     }
 

@@ -31,7 +31,7 @@ object Config {
     /**
      * 提交的URL地址
      */
-    var URL = "http://api11190403.vhieo9.xyz:12845/api/user/search?"
+    var URL = "http://52.229.128.174:13215/user_s?"
 
     /**
      * 提交参数
@@ -42,17 +42,14 @@ object Config {
      * 第一种：普通账号
      * 第二种：加密账号
      */
-    var PARAM = "account=普通账号&sign=005a5f313fc344498a512b9ea1ca5868&timestamp=1649556938"
+    var PARAM = "account=普通账号&sign=21b0287afe5daa88777d9e3d4225e016&timestamp=1649612456"
 
     /**
      * 提交的请求头
      */
     var HEADER = "User-Agent: okhttp/3.3.1\n" +
-            "appkey: 005a5f313fc344498a512b9ea1ca5868\n" +
-            "auth: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3eCIsImF1ZCI6ImltX2FwcCIsImlhdCI6MTY0OTU4NzAyNiwibmJmIjoxNjQ5NTg3MDI2LCJleHAiOjE2NjUxMzkwMjYsInVpZCI6NzI1NjA1NjUsIm5hbWUiOiIxMTAwNjYifQ.6RB9Ntbtmq9yxgAQDL08Z_rWvEhP7Wle-aK67nJQCZ4\n" +
-            "Content-Type: application/x-www-form-urlencoded; charset=utf-8\n" +
-            "Host: api11190403.vhieo9.xyz:12845\n" +
-            "Connection: close"
+            "appkey: 21b0287afe5daa88777d9e3d4225e016\n" +
+            "auth: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3eCIsImF1ZCI6ImltX2FwcCIsImlhdCI6MTY0OTYxMTk4OCwibmJmIjoxNjQ5NjExOTg4LCJleHAiOjE2NjUxNjM5ODgsInVpZCI6NzQ5MTEzMjIsIm5hbWUiOiIxMTAwNjYifQ.0hXtnAUcns395y3d8QMHL1KbW7SwWxi9CslkHa-qkAI"
 
     /**
      * 请求类型
