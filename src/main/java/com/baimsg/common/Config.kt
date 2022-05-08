@@ -13,9 +13,8 @@ object Config {
 
     //这里填要跑的账号列表
     init {
+        userNames.add("123456")
         userNames.add("baimsg")
-        userNames.add("test")
-        userNames.add("last")
     }
 
     /**
@@ -31,25 +30,24 @@ object Config {
     /**
      * 提交的URL地址
      */
-    var URL = "http://52.229.128.174:13215/user_s?"
+    var URL = "http://152.32.187.50:8094/auth/getLoginCode?"
 
     /**
      * 提交参数
      * 密码填参数说明：
      * 第一种：普通密码 就是没有加密的密码
      * 第二种：加密密码 就是密码需要加密的
+     * 第三中：AES加密 就是带 secret 参数的 提交参数不包括 secret
      * 账号填参数说明：
      * 第一种：普通账号
      * 第二种：加密账号
      */
-    var PARAM = "account=普通账号&sign=21b0287afe5daa88777d9e3d4225e016&timestamp=1649612456"
+    var PARAM = "areaCode=86&deviceId=android&account=普通账号&mac=AES密码&language=zh&salt=1652001171755"
 
     /**
      * 提交的请求头
      */
-    var HEADER = "User-Agent: okhttp/3.3.1\n" +
-            "appkey: 21b0287afe5daa88777d9e3d4225e016\n" +
-            "auth: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3eCIsImF1ZCI6ImltX2FwcCIsImlhdCI6MTY0OTYxMTk4OCwibmJmIjoxNjQ5NjExOTg4LCJleHAiOjE2NjUxNjM5ODgsInVpZCI6NzQ5MTEzMjIsIm5hbWUiOiIxMTAwNjYifQ.0hXtnAUcns395y3d8QMHL1KbW7SwWxi9CslkHa-qkAI"
+    var HEADER = ""
 
     /**
      * 请求类型
@@ -65,7 +63,7 @@ object Config {
     /**
      * 代理是否开启 (0 是关  1是开)
      */
-    var IS_OPEN_PROXY = 1
+    var IS_OPEN_PROXY = 0
 
     /**
      * 代理刷新的延迟时间（单位毫秒/1000=1秒）
