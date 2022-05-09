@@ -179,10 +179,11 @@ object HttpUtils {
                     Log.e(exe.message)
                 }
             } catch (e: IOException) {
+                Log.e(e.toString())
                 e.message
+
             }
         }
-
         Log.e("[${request.method}:${request.url} ${request.body?.contentType()}] -> error")
         return null
     }

@@ -13,8 +13,7 @@ object Config {
 
     //这里填要跑的账号列表
     init {
-        userNames.add("123456")
-        userNames.add("baimsg")
+        userNames.add("a110066")
     }
 
     /**
@@ -30,24 +29,37 @@ object Config {
     /**
      * 提交的URL地址
      */
-    var URL = "http://152.32.187.50:8094/auth/getLoginCode?"
+
+    var URL = "https://api.csmyim.com/mytio/login?"
+
+    /**
+     * 这里是密钥
+     * 常见密钥
+     * pd5 -> \${9DA015C1866616ABBE371EB25DED67E8}
+     * mac -> 123 或 空
+     * 麦聊 校验加密 -> 5e29f483c48848
+     */
+    var KEY = "\${9DA015C1866616ABBE371EB25DED67E8}"
 
     /**
      * 提交参数
-     * 密码填参数说明：
-     * 第一种：普通密码 就是没有加密的密码
-     * 第二种：加密密码 就是密码需要加密的
-     * 第三中：AES加密 就是带 secret 参数的 提交参数不包括 secret
      * 账号填参数说明：
      * 第一种：普通账号
      * 第二种：加密账号
+     * 密码填参数说明：
+     * 第一种：普通密码 就是没有加密的密码
+     * 第二种：加密密码 就是密码需要加密的
+     * 第三中：mac加密 不要填 secret 参数【记得填密钥】
+     * 第四种：pd5加密 【记得填密钥】
+     * 第五中：校验加密 不要填 secret 参数【记得填密钥】
      */
-    var PARAM = "areaCode=86&deviceId=android&account=普通账号&mac=AES密码&language=zh&salt=1652001171755"
+    var PARAM = "p_is_android=1&_lau=cn&pd5=pd5加密&loginname=普通账号"
 
     /**
      * 提交的请求头
      */
-    var HEADER = ""
+    var HEADER =
+        "Accept-Language: zh-CN,zh;q=0.8\n" + "User-Agent: tiohttp/watayouxiang\n" + "tio-deviceinfo: OPPO PCLM10\n" + "tio-imei: 353512023118299\n" + "tio-appversion: 5.0.2\\u000a\n" + "tio-cid: official\n" + "tio-resolution: 1080,1920\n" + "tio-operator: \\u4e2d\\u56fd\\u79fb\\u52a8\n" + "tio-size: 4.6\n" + "Content-Type: application/x-www-form-urlencoded\n" + "Content-Length: 75\n" + "Host: api.csmyim.com\n" + "Connection: Keep-Alive\n" + "Cookie: tio_session=15123457325157851535156375552"
 
     /**
      * 请求类型
