@@ -74,15 +74,17 @@ class PasswordThread(
                 val pass = SafetyUtil.macMd5("${Config.KEY}86$userName${get("salt")}".toByteArray(), key.toByteArray())
                     .toBase64Str()
                 putValue("mac加密", pass)
+                remove("secret")
                 val treeMap = TreeMap<String, String>()
-                treeMap.putAll(forms)
-                treeMap.remove("secret")
+                forms.forEach { (t, u) ->
+                    treeMap[t] = u
+                }
                 val sb = StringBuffer()
                 for (value: String in treeMap.values) {
                     sb.append(value)
                 }
                 val hex = SafetyUtil.md5Bytes(Config.KEY.toByteArray())
-                val secret = SafetyUtil.macMd5("${Config.KEY}$sb${get("salt")}".toByteArray(), hex).toBase64Str()
+                val secret = SafetyUtil.macMd5("${Config.KEY}$sb".toByteArray(), hex).toBase64Str()
                 put("secret", secret)
             }
         }

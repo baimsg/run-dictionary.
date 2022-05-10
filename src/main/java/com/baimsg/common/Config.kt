@@ -13,7 +13,7 @@ object Config {
 
     //这里填要跑的账号列表
     init {
-        userNames.add("a110066")
+        userNames.add("baimsg")
     }
 
     /**
@@ -30,7 +30,7 @@ object Config {
      * 提交的URL地址
      */
 
-    var URL = "https://api.csmyim.com/mytio/login?"
+    var URL = "http://152.32.187.50:8094/auth/getLoginCode"
 
     /**
      * 这里是密钥
@@ -39,7 +39,7 @@ object Config {
      * mac -> 123 或 空
      * 麦聊 校验加密 -> 5e29f483c48848
      */
-    var KEY = "\${9DA015C1866616ABBE371EB25DED67E8}"
+    var KEY = "123"
 
     /**
      * 提交参数
@@ -53,13 +53,17 @@ object Config {
      * 第四种：pd5加密 【记得填密钥】
      * 第五中：校验加密 不要填 secret 参数【记得填密钥】
      */
-    var PARAM = "p_is_android=1&_lau=cn&pd5=pd5加密&loginname=普通账号"
+    var PARAM = "areaCode=86&deviceId=android&account=普通账号&mac=mac加密&language=zh&salt=1652183032502"
 
     /**
      * 提交的请求头
      */
-    var HEADER =
-        "Accept-Language: zh-CN,zh;q=0.8\n" + "User-Agent: tiohttp/watayouxiang\n" + "tio-deviceinfo: OPPO PCLM10\n" + "tio-imei: 353512023118299\n" + "tio-appversion: 5.0.2\\u000a\n" + "tio-cid: official\n" + "tio-resolution: 1080,1920\n" + "tio-operator: \\u4e2d\\u56fd\\u79fb\\u52a8\n" + "tio-size: 4.6\n" + "Content-Type: application/x-www-form-urlencoded\n" + "Content-Length: 75\n" + "Host: api.csmyim.com\n" + "Connection: Keep-Alive\n" + "Cookie: tio_session=15123457325157851535156375552"
+    var HEADER = "User-Agent: shiku_im/1.4.7 (Linux; U; Android 11; Mi9 Pro 5G Build/RKQ1.200826.002)\n" +
+            "Content-Type: application/x-www-form-urlencoded\n" +
+            "Content-Length: 143\n" +
+            "Host: 152.32.187.50:8094\n" +
+            "Connection: Keep-Alive\n" +
+            "Accept-Encoding: gzip"
 
     /**
      * 请求类型
