@@ -76,9 +76,7 @@ class PasswordThread(
                 putValue("mac加密", pass)
                 remove("secret")
                 val treeMap = TreeMap<String, String>()
-                forms.forEach { (t, u) ->
-                    treeMap[t] = u
-                }
+                treeMap.putAll(this)
                 val sb = StringBuffer()
                 for (value: String in treeMap.values) {
                     sb.append(value)
