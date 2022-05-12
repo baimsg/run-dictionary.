@@ -30,7 +30,7 @@ object Config {
      * 提交的URL地址
      */
 
-    var URL = "http://152.32.187.50:8094/auth/getLoginCode"
+    var URL = "http://47.57.140.45:7177/nearby/user"
 
     /**
      * 这里是密钥
@@ -39,7 +39,7 @@ object Config {
      * mac -> 123 或 空
      * 麦聊 校验加密 -> 5e29f483c48848
      */
-    var KEY = "123"
+    var KEY = ""
 
     /**
      * 提交参数
@@ -53,22 +53,21 @@ object Config {
      * 第四种：pd5加密 【记得填密钥】
      * 第五中：校验加密 不要填 secret 参数【记得填密钥】
      */
-    var PARAM = "areaCode=86&deviceId=android&account=普通账号&mac=mac加密&language=zh&salt=1652183032502"
+    var PARAM = "pageIndex=1&maxAge=200&nickname=普通账号&pageSize=20&active=0&language=zh&access_token=c251d1c784844efe8b22c369763ba5af&salt=1652309998303"
 
     /**
      * 提交的请求头
      */
-    var HEADER = "User-Agent: shiku_im/1.4.7 (Linux; U; Android 11; Mi9 Pro 5G Build/RKQ1.200826.002)\n" +
+    var HEADER = "User-Agent: shiku_im/1.4.7 (Linux; U; Android 10; PDVM00 Build/QKQ1.200614.002)\n" +
             "Content-Type: application/x-www-form-urlencoded\n" +
-            "Content-Length: 143\n" +
-            "Host: 152.32.187.50:8094\n" +
-            "Connection: Keep-Alive\n" +
-            "Accept-Encoding: gzip"
+            "Content-Length: 147\n" +
+            "Host: 47.57.140.45:7177\n" +
+            "Connection: Keep-Alive"
 
     /**
      * 请求类型
      */
-    var type = "POST"
+    var type = "GET"
 
     /**
      * 代理地址

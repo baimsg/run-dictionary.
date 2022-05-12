@@ -35,56 +35,65 @@ class PasswordThread(
 
         forms.apply {
             //处理密账号
-            if (containsValue("加密账号")) {
+            if (containsValue("加密账号") || param.contains("加密账号")) {
                 param = param.replaceFirst("加密账号", userName.toMd5())
                 putValue("加密账号", userName.toMd5())
-            }
-            if (containsValue("普通账号")) {
+            } else if (containsValue("普通账号") || param.contains("普通账号")) {
                 param = param.replaceFirst("普通账号", userName)
                 putValue("普通账号", userName)
             }
             //处理密码
-            if (containsValue("普通密码")) {
+            if (containsValue("普通密码") || param.contains("普通密码")) {
                 param = param.replaceFirst("普通密码", password)
                 putValue("普通密码", password)
-            }
-            if (containsValue("加密密码")) {
-                param = param.replaceFirst("加密密码", password.toMd5())
-                putValue("加密密码", password.toMd5())
-            }
-            if (containsValue("pd5加密")) {
-                putValue("pd5加密", "${Config.KEY}$password".toMd5())
-            }
-            if (containsValue("校验加密")) {
-                if (!containsKey("time")) {
-                    Log.e("校验加密 必须携带 time 参数！")
-                    return
-                }
-                putValue("校验加密", password.toMd5())
-                put("secret", "${Config.KEY}${get("time")}".toMd5())
-            }
-            if (containsValue("mac加密")) {
-                if (!containsKey("salt")) {
-                    Log.e("mac加密 必须携带 salt 参数！")
-                    return
-                }
-                val passwordMd5 = SafetyUtil.md5Bytes(password.toByteArray())
-                val key =
-                    SafetyUtil.bytesToHexString(SafetyUtil.md5Bytes(SafetyUtil.passWordAes(passwordMd5, passwordMd5)))
-                val pass = SafetyUtil.macMd5("${Config.KEY}86$userName${get("salt")}".toByteArray(), key.toByteArray())
-                    .toBase64Str()
-                putValue("mac加密", pass)
-                remove("secret")
-                val treeMap = TreeMap<String, String>()
-                treeMap.putAll(this)
-                val sb = StringBuffer()
-                for (value: String in treeMap.values) {
-                    sb.append(value)
-                }
-                val hex = SafetyUtil.md5Bytes(Config.KEY.toByteArray())
-                val secret = SafetyUtil.macMd5("${Config.KEY}$sb".toByteArray(), hex).toBase64Str()
-                put("secret", secret)
-            }
+            } else
+                if (containsValue("加密密码") || param.contains("加密密码")) {
+                    param = param.replaceFirst("加密密码", password.toMd5())
+                    putValue("加密密码", password.toMd5())
+                } else
+                    if (containsValue("pd5加密") || param.contains("pd5加密")) {
+                        putValue("pd5加密", "${Config.KEY}$password".toMd5())
+                    } else
+                        if (containsValue("校验加密") || param.contains("校验加密")) {
+                            if (!containsKey("time")) {
+                                Log.e("校验加密 必须携带 time 参数！")
+                                return
+                            }
+                            putValue("校验加密", password.toMd5())
+                            put("secret", "${Config.KEY}${get("time")}".toMd5())
+                        } else
+                            if (containsValue("mac加密") || param.contains("mac加密")) {
+                                if (!containsKey("salt")) {
+                                    Log.e("mac加密 必须携带 salt 参数！")
+                                    return
+                                }
+                                val passwordMd5 = SafetyUtil.md5Bytes(password.toByteArray())
+                                val key =
+                                    SafetyUtil.bytesToHexString(
+                                        SafetyUtil.md5Bytes(
+                                            SafetyUtil.passWordAes(
+                                                passwordMd5,
+                                                passwordMd5
+                                            )
+                                        )
+                                    )
+                                val pass = SafetyUtil.macMd5(
+                                    "${Config.KEY}86$userName${get("salt")}".toByteArray(),
+                                    key.toByteArray()
+                                )
+                                    .toBase64Str()
+                                putValue("mac加密", pass)
+                                remove("secret")
+                                val treeMap = TreeMap<String, String>()
+                                treeMap.putAll(this)
+                                val sb = StringBuffer()
+                                for (value: String in treeMap.values) {
+                                    sb.append(value)
+                                }
+                                val hex = SafetyUtil.md5Bytes(Config.KEY.toByteArray())
+                                val secret = SafetyUtil.macMd5("${Config.KEY}$sb".toByteArray(), hex).toBase64Str()
+                                put("secret", secret)
+                            }
         }
 
         //处理请求头
