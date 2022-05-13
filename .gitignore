@@ -24,4 +24,5 @@ bin/
 
 /build
 **/out/
-*.ini
+
+!.gitignore
