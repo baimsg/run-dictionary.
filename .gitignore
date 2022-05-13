@@ -23,6 +23,5 @@ org.eclipse.buildship.core.prefs
 bin/
 
 /build
-out/
-resources/
-!resources/
+**/out/
+*.ini
