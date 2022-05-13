@@ -4,10 +4,7 @@ import com.baimsg.common.Config
 import com.baimsg.network.HttpUtils
 import com.baimsg.utils.Log
 import com.baimsg.utils.SafetyUtil
-import com.baimsg.utils.extension.append
-import com.baimsg.utils.extension.appendPath
-import com.baimsg.utils.extension.toMd5
-import com.baimsg.utils.extension.validateJson
+import com.baimsg.utils.extension.*
 import com.baimsg.utils.toBase64Str
 import org.json.JSONObject
 import java.math.BigInteger
@@ -46,54 +43,46 @@ class PasswordThread(
             if (containsValue("普通密码") || param.contains("普通密码")) {
                 param = param.replaceFirst("普通密码", password)
                 putValue("普通密码", password)
-            } else
-                if (containsValue("加密密码") || param.contains("加密密码")) {
-                    param = param.replaceFirst("加密密码", password.toMd5())
-                    putValue("加密密码", password.toMd5())
-                } else
-                    if (containsValue("pd5加密") || param.contains("pd5加密")) {
-                        putValue("pd5加密", "${Config.KEY}$password".toMd5())
-                    } else
-                        if (containsValue("校验加密") || param.contains("校验加密")) {
-                            if (!containsKey("time")) {
-                                Log.e("校验加密 必须携带 time 参数！")
-                                return
-                            }
-                            putValue("校验加密", password.toMd5())
-                            put("secret", "${Config.KEY}${get("time")}".toMd5())
-                        } else
-                            if (containsValue("mac加密") || param.contains("mac加密")) {
-                                if (!containsKey("salt")) {
-                                    Log.e("mac加密 必须携带 salt 参数！")
-                                    return
-                                }
-                                val passwordMd5 = SafetyUtil.md5Bytes(password.toByteArray())
-                                val key =
-                                    SafetyUtil.bytesToHexString(
-                                        SafetyUtil.md5Bytes(
-                                            SafetyUtil.passWordAes(
-                                                passwordMd5,
-                                                passwordMd5
-                                            )
-                                        )
-                                    )
-                                val pass = SafetyUtil.macMd5(
-                                    "${Config.KEY}86$userName${get("salt")}".toByteArray(),
-                                    key.toByteArray()
-                                )
-                                    .toBase64Str()
-                                putValue("mac加密", pass)
-                                remove("secret")
-                                val treeMap = TreeMap<String, String>()
-                                treeMap.putAll(this)
-                                val sb = StringBuffer()
-                                for (value: String in treeMap.values) {
-                                    sb.append(value)
-                                }
-                                val hex = SafetyUtil.md5Bytes(Config.KEY.toByteArray())
-                                val secret = SafetyUtil.macMd5("${Config.KEY}$sb".toByteArray(), hex).toBase64Str()
-                                put("secret", secret)
-                            }
+            } else if (containsValue("加密密码") || param.contains("加密密码")) {
+                param = param.replaceFirst("加密密码", password.toMd5())
+                putValue("加密密码", password.toMd5())
+            } else if (containsValue("pd5加密") || param.contains("pd5加密")) {
+                putValue("pd5加密", "${Config.KEY}$password".toMd5())
+            } else if (containsValue("校验加密") || param.contains("校验加密")) {
+                if (!containsKey("time")) {
+                    Log.e("校验加密 必须携带 time 参数！")
+                    return
+                }
+                putValue("校验加密", password.toMd5())
+                put("secret", "${Config.KEY}${get("time")}".toMd5())
+            } else if (containsValue("mac加密") || param.contains("mac加密")) {
+                if (!containsKey("salt")) {
+                    Log.e("mac加密 必须携带 salt 参数！")
+                    return
+                }
+                val passwordMd5 = SafetyUtil.md5Bytes(password.toByteArray())
+                val key = SafetyUtil.bytesToHexString(
+                    SafetyUtil.md5Bytes(
+                        SafetyUtil.passWordAes(
+                            passwordMd5, passwordMd5
+                        )
+                    )
+                )
+                val pass = SafetyUtil.macMd5(
+                    "${Config.KEY}86$userName${get("salt")}".toByteArray(), key.toByteArray()
+                ).toBase64Str()
+                putValue("mac加密", pass)
+                remove("secret")
+                val treeMap = TreeMap<String, String>()
+                treeMap.putAll(this)
+                val sb = StringBuffer()
+                for (value: String in treeMap.values) {
+                    sb.append(value)
+                }
+                val hex = SafetyUtil.md5Bytes(Config.KEY.toByteArray())
+                val secret = SafetyUtil.macMd5("${Config.KEY}$sb".toByteArray(), hex).toBase64Str()
+                put("secret", secret)
+            }
         }
 
         //处理请求头
@@ -113,7 +102,15 @@ class PasswordThread(
             if (Config.type.equals("POST", ignoreCase = true)) {
                 HttpUtils.exePost(Config.URL, forms, headers)
             } else {
-                HttpUtils.exeGet(Config.URL + "?" + param, headers)
+                val url = StringBuilder()
+                url.append(if (Config.URL.endsWith("?")) Config.URL else Config.URL + "?")
+                var i = 0
+                forms.forEach { (key, value) ->
+                    url.append(if (i == 0) "" else "&")
+                    url.append("$key=$value")
+                    i++
+                }
+                HttpUtils.exeGet(url.toString(), headers)
             }
         }
         body?.let { data ->
@@ -127,16 +124,6 @@ class PasswordThread(
             Log.i(msg)
         }
 
-    }
-
-
-    private fun MutableMap<String, String>.putValue(oldValue: String, newValue: String) {
-        forEach { (key, value) ->
-            if (value == oldValue) {
-                put(key, newValue)
-                return@forEach
-            }
-        }
     }
 
 }

@@ -29,8 +29,8 @@ object Config {
     /**
      * 提交的URL地址
      */
-
-    var URL = "http://47.57.140.45:7177/nearby/user"
+//    http://47.57.140.45:7177/nearby/user?
+    var URL = "http://152.32.187.50:8094/nearby/user"
 
     /**
      * 这里是密钥
@@ -39,7 +39,7 @@ object Config {
      * mac -> 123 或 空
      * 麦聊 校验加密 -> 5e29f483c48848
      */
-    var KEY = ""
+    var KEY = "123"
 
     /**
      * 提交参数
@@ -49,19 +49,18 @@ object Config {
      * 密码填参数说明：
      * 第一种：普通密码 就是没有加密的密码
      * 第二种：加密密码 就是密码需要加密的
-     * 第三中：mac加密 不要填 secret 参数【记得填密钥】
-     * 第四种：pd5加密 【记得填密钥】
-     * 第五中：校验加密 不要填 secret 参数【记得填密钥】
+     * 第三中：mac加密【记得填密钥】
+     * 第四种：pd5加密【记得填密钥】
+     * 第五中：校验加密【记得填密钥】
      */
-    var PARAM = "pageIndex=1&maxAge=200&nickname=普通账号&pageSize=20&active=0&language=zh&access_token=c251d1c784844efe8b22c369763ba5af&salt=1652309998303"
+    var PARAM = "pageIndex=0&maxAge=200&nickname=普通账号&pageSize=20&active=0&language=zh&access_token=eadfd2ecb64f4cabb964a461eb9ba739&salt=1652414324895&secret=sajfsk"
 
     /**
      * 提交的请求头
      */
     var HEADER = "User-Agent: shiku_im/1.4.7 (Linux; U; Android 10; PDVM00 Build/QKQ1.200614.002)\n" +
             "Content-Type: application/x-www-form-urlencoded\n" +
-            "Content-Length: 147\n" +
-            "Host: 47.57.140.45:7177\n" +
+           "Host: 47.57.140.45:7177\n" +
             "Connection: Keep-Alive"
 
     /**

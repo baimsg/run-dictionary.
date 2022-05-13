@@ -3,12 +3,15 @@ package com.baimsg.thread
 import com.baimsg.common.Config
 import com.baimsg.network.HttpUtils
 import com.baimsg.utils.Log
-import com.baimsg.utils.extension.append
-import com.baimsg.utils.extension.appendPath
-import com.baimsg.utils.extension.validateJson
-import com.baimsg.utils.extension.write
+import com.baimsg.utils.SafetyUtil
+import com.baimsg.utils.extension.*
+import com.baimsg.utils.toBase64Str
 import org.json.JSONObject
 import java.math.BigInteger
+import java.util.*
+import kotlin.collections.HashMap
+import kotlin.random.Random
+import kotlin.random.nextLong
 
 class UserThread(private val index: BigInteger, private val userName: String) : Runnable {
     override fun run() {
@@ -20,9 +23,47 @@ class UserThread(private val index: BigInteger, private val userName: String) : 
             output.delete()
             Log.d("${output.name} -> 数据已清空！")
         }
+        val forms = mutableMapOf<String, String>()
+
         var param = Config.PARAM
-        //处理账号
-        param = param.replaceFirst("普通账号", userName)
+        if (param.isNotBlank()) {
+            param.split("&").forEach { s ->
+                if (s.contains("=")) {
+                    val values = s.split("=")
+                    forms[values[0]] = values[1]
+                }
+            }
+        }
+        forms.apply {
+            //处理密账号
+            if (containsValue("加密账号") || param.contains("加密账号")) {
+                param = param.replaceFirst("加密账号", userName.toMd5())
+                putValue("加密账号", userName.toMd5())
+            } else if (containsValue("普通账号") || param.contains("普通账号")) {
+                param = param.replaceFirst("普通账号", userName)
+                putValue("普通账号", userName)
+            }
+            if (containsKey("secret") && containsKey("time")) {
+                put("secret", "${Config.KEY}${get("time")}".toMd5())
+            } else if (containsKey("secret") && containsKey("salt")) {
+                val treeMap = TreeMap<String, String>()
+                treeMap.putAll(this)
+                treeMap.remove("secret")
+                treeMap.remove("salt")
+                treeMap.remove("access_token")
+                val sb = StringBuffer()
+                for (value: String in treeMap.values) {
+                    sb.append(value)
+                }
+                val salt = System.currentTimeMillis() + Random.nextInt(1, Config.maxThread)
+                put("salt", "$salt")
+                val secret = SafetyUtil.macMd5(
+                    "${Config.KEY}10010698${get("access_token")}$sb$salt".toByteArray(),
+                    Base64.getDecoder().decode("dgXE+gjQzM54U3QayWyXGQ==")
+                ).toBase64Str()
+                put("secret", secret)
+            }
+        }
 
         //处理请求头
         val headers = HashMap<String, String>()
@@ -33,24 +74,30 @@ class UserThread(private val index: BigInteger, private val userName: String) : 
             }
         }
 
-        val body: String?
-        if (param.validateJson()) {
-            body = HttpUtils.exePost(Config.URL, param, headers)
+        val body: String? = if (param.validateJson()) {
+            HttpUtils.exePost(Config.URL, param, headers)
         } else {
             if (Config.type.equals("POST", ignoreCase = true)) {
-                val forms = HashMap<String, String>()
-                for (str in param.split("&")) {
-                    val arg = str.split("=")
-                    if (arg.size < 2) return
-                    forms[arg[0]] = arg[1]
-                }
-                body = HttpUtils.exePost(Config.URL, forms, headers)
+                HttpUtils.exePost(Config.URL, forms, headers)
             } else {
-                body = HttpUtils.exeGet(Config.URL + "?" + param, headers)
+                val url = StringBuilder()
+                url.append(if (Config.URL.endsWith("?")) Config.URL else Config.URL + "?")
+                var i = 0
+                forms.forEach { (key, value) ->
+                    url.append(if (i == 0) "" else "&")
+                    url.append("$key=$value")
+                    i++
+                }
+                HttpUtils.exeGet(url.toString(), headers)
             }
         }
-        body?.let {
-            val msg = "$index\t[$userName] ->\t${JSONObject(body)}"
+        body?.let { data ->
+            val json = try {
+                JSONObject(data)
+            } catch (e: Exception) {
+                data
+            }
+            val msg = "$index\t[$userName] ->\t$json"
             output.write(msg)
             Log.i(msg)
         }
