@@ -29,8 +29,7 @@ object Config {
     /**
      * 提交的URL地址
      */
-//    http://47.57.140.45:7177/nearby/user?
-    var URL = "http://152.32.187.50:8094/nearby/user"
+    var URL = "http://www.tjj599t.cc:33011/api/user/login"
 
     /**
      * 这里是密钥
@@ -40,6 +39,10 @@ object Config {
      * 麦聊 校验加密 -> 5e29f483c48848
      */
     var KEY = "123"
+
+    const val START_KEY = "B531B2A006E3C8DI"
+
+    const val END_KEY = "C7010059FA47E56I"
 
     /**
      * 提交参数
@@ -53,20 +56,18 @@ object Config {
      * 第四种：pd5加密【记得填密钥】
      * 第五中：校验加密【记得填密钥】
      */
-    var PARAM = "pageIndex=0&maxAge=200&nickname=普通账号&pageSize=20&active=0&language=zh&access_token=eadfd2ecb64f4cabb964a461eb9ba739&salt=1652414324895&secret=sajfsk"
+    var PARAM =
+        "str=0c2d900f4f39e69bf82ffd28125590be&password=12345678&os=android&signature=e1a9af8484f5aab5151bc9b373db5d82&v=1.2.0&time=1652616213307&account=baimsg"
 
     /**
      * 提交的请求头
      */
-    var HEADER = "User-Agent: shiku_im/1.4.7 (Linux; U; Android 10; PDVM00 Build/QKQ1.200614.002)\n" +
-            "Content-Type: application/x-www-form-urlencoded\n" +
-           "Host: 47.57.140.45:7177\n" +
-            "Connection: Keep-Alive"
+    var HEADER = ""
 
     /**
      * 请求类型
      */
-    var type = "GET"
+    var type = "POST"
 
     /**
      * 代理地址

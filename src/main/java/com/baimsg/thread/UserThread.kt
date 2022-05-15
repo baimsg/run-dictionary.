@@ -63,6 +63,20 @@ class UserThread(private val index: BigInteger, private val userName: String) : 
                 ).toBase64Str()
                 put("secret", secret)
             }
+
+            //signature加密
+            if (containsKey("signature") && containsKey("time")) {
+                val time = System.currentTimeMillis()
+                put("time", "$time")
+                remove("signature")
+                put("str", verify(time))
+                val sb = StringBuffer()
+                entries.sortedWith(compareBy { it.key }).forEach { (key, value) ->
+                    if (sb.isNotEmpty()) sb.append("&")
+                    sb.append("$key=$value")
+                }
+                put("signature", "${Config.START_KEY}$sb${Config.END_KEY}".toMd5())
+            }
         }
 
         //处理请求头
@@ -101,5 +115,11 @@ class UserThread(private val index: BigInteger, private val userName: String) : 
             output.write(msg)
             Log.i(msg)
         }
+    }
+
+    private fun verify(j: Long): String {
+        val concat = Config.START_KEY + Config.END_KEY
+        val substring = concat.substring(8, concat.length - 8)
+        return "$j$substring".toMd5().lowercase(Locale.getDefault())
     }
 }
