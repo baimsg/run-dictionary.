@@ -2,7 +2,7 @@ package com.baimsg.utils
 
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
-import java.util.Base64
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.Mac
@@ -98,6 +98,21 @@ object SafetyUtil {
             ByteArray(0)
         }
     }
+    fun passWordAesDecode(data: ByteArray?, keys: ByteArray): ByteArray {
+        var key = keys
+        return try {
+            if (key.size != 16) {
+                key = keys.copyOfRange(0, 16)
+            }
+            KeyGenerator.getInstance("AES")
+            val secretKeySpec = SecretKeySpec(key, "AES")
+            val instance = Cipher.getInstance("AES/CBC/PKCS5Padding")
+            instance.init(2, secretKeySpec, IvParameterSpec(passIv))
+            instance.doFinal(data)
+        } catch (e: java.lang.Exception) {
+            ByteArray(0)
+        }
+    }
 
     fun macMd5(bArr: ByteArray?, bArr2: ByteArray?): ByteArray {
         return try {
@@ -114,5 +129,14 @@ object SafetyUtil {
 
 
 fun ByteArray.toBase64Str(): String = Base64.getEncoder().encode(this).toUTF_8()
+
+
+fun String.base64ToStr(): String = toByteArray().base64ToStr()
+
+fun ByteArray.base64ToStr(): String = base64ToBytes().toUTF_8()
+
+fun String.base64ToBytes(): ByteArray = toByteArray().base64ToBytes()
+
+fun ByteArray.base64ToBytes(): ByteArray = Base64.getDecoder().decode(this)
 
 fun ByteArray.toUTF_8() = String(this)

@@ -87,9 +87,9 @@ class PasswordThread(
             //signature加密
             if (containsKey("signature") && containsKey("time")) {
                 val time = System.currentTimeMillis()
-                put("time", "$time")
                 remove("signature")
-                put("str", verify(time))
+                put("time", "$time")
+                put("str", time.verify())
                 val sb = StringBuffer()
                 entries.sortedWith(compareBy { it.key }).forEach { (key, value) ->
                     if (sb.isNotEmpty()) sb.append("&")
@@ -118,11 +118,9 @@ class PasswordThread(
             } else {
                 val url = StringBuilder()
                 url.append(if (Config.URL.endsWith("?")) Config.URL else Config.URL + "?")
-                var i = 0
                 forms.forEach { (key, value) ->
-                    url.append(if (i == 0) "" else "&")
+                    if (url.isNotEmpty()) url.append("&")
                     url.append("$key=$value")
-                    i++
                 }
                 HttpUtils.exeGet(url.toString(), headers)
             }
@@ -138,13 +136,6 @@ class PasswordThread(
             Log.i(msg)
         }
 
-    }
-
-
-    private fun verify(j: Long): String {
-        val concat = Config.START_KEY + Config.END_KEY
-        val substring = concat.substring(8, concat.length - 8)
-        return "$j$substring".toMd5().lowercase(Locale.getDefault())
     }
 
 }

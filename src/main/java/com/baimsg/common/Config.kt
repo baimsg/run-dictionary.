@@ -29,7 +29,22 @@ object Config {
     /**
      * 提交的URL地址
      */
-    var URL = "http://www.tjj599t.cc:33011/api/user/login"
+    var URL = "http://152.32.187.50:8094/nearby/user"
+
+    /**
+     * signature密钥
+     */
+    const val START_KEY = "B531B2A006E3C8DI"
+
+    const val END_KEY = "C7010059FA47E56I"
+
+
+    /**
+     * mac跑账号
+     */
+    const val userId = "10010698"
+
+    const val httpKey = "G+h2FQaxy0iGUp9qeZLMlg=="
 
     /**
      * 这里是密钥
@@ -39,10 +54,6 @@ object Config {
      * 麦聊 校验加密 -> 5e29f483c48848
      */
     var KEY = "123"
-
-    const val START_KEY = "B531B2A006E3C8DI"
-
-    const val END_KEY = "C7010059FA47E56I"
 
     /**
      * 提交参数
@@ -57,7 +68,7 @@ object Config {
      * 第五中：校验加密【记得填密钥】
      */
     var PARAM =
-        "str=0c2d900f4f39e69bf82ffd28125590be&password=12345678&os=android&signature=e1a9af8484f5aab5151bc9b373db5d82&v=1.2.0&time=1652616213307&account=baimsg"
+        "pageIndex=0&maxAge=200&nickname=普通账号&pageSize=20&active=0&language=zh&access_token=4a9cc7af11e0475eb070515ecfc85972&salt=1652673070225&secret=xeGQ6NJaWfr%2FU3UmNrXVbA%3D%3D"
 
     /**
      * 提交的请求头

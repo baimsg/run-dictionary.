@@ -4,6 +4,7 @@ import com.baimsg.common.Config
 import com.baimsg.network.HttpUtils
 import com.baimsg.utils.Log
 import com.baimsg.utils.SafetyUtil
+import com.baimsg.utils.base64ToBytes
 import com.baimsg.utils.extension.*
 import com.baimsg.utils.toBase64Str
 import org.json.JSONObject
@@ -58,8 +59,8 @@ class UserThread(private val index: BigInteger, private val userName: String) : 
                 val salt = System.currentTimeMillis() + Random.nextInt(1, Config.maxThread)
                 put("salt", "$salt")
                 val secret = SafetyUtil.macMd5(
-                    "${Config.KEY}10010698${get("access_token")}$sb$salt".toByteArray(),
-                    Base64.getDecoder().decode("dgXE+gjQzM54U3QayWyXGQ==")
+                    "${Config.KEY}${Config.userId}${get("access_token")}$sb$salt".toByteArray(),
+                    Config.httpKey.base64ToBytes()
                 ).toBase64Str()
                 put("secret", secret)
             }
@@ -67,9 +68,9 @@ class UserThread(private val index: BigInteger, private val userName: String) : 
             //signature加密
             if (containsKey("signature") && containsKey("time")) {
                 val time = System.currentTimeMillis()
-                put("time", "$time")
                 remove("signature")
-                put("str", verify(time))
+                put("time", "$time")
+                put("str", time.verify())
                 val sb = StringBuffer()
                 entries.sortedWith(compareBy { it.key }).forEach { (key, value) ->
                     if (sb.isNotEmpty()) sb.append("&")
@@ -96,11 +97,9 @@ class UserThread(private val index: BigInteger, private val userName: String) : 
             } else {
                 val url = StringBuilder()
                 url.append(if (Config.URL.endsWith("?")) Config.URL else Config.URL + "?")
-                var i = 0
                 forms.forEach { (key, value) ->
-                    url.append(if (i == 0) "" else "&")
+                    if (url.isNotEmpty()) url.append("&")
                     url.append("$key=$value")
-                    i++
                 }
                 HttpUtils.exeGet(url.toString(), headers)
             }
@@ -112,14 +111,14 @@ class UserThread(private val index: BigInteger, private val userName: String) : 
                 data
             }
             val msg = "$index\t[$userName] ->\t$json"
+            if (data.contains("权限验证失败")) {
+                Log.e("$msg -> 尝试重试ing")
+                UserThread(index, userName).run()
+                return
+            }
             output.write(msg)
             Log.i(msg)
         }
     }
 
-    private fun verify(j: Long): String {
-        val concat = Config.START_KEY + Config.END_KEY
-        val substring = concat.substring(8, concat.length - 8)
-        return "$j$substring".toMd5().lowercase(Locale.getDefault())
-    }
 }

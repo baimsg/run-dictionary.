@@ -6,11 +6,7 @@ import com.baimsg.thread.UserThread
 import com.baimsg.utils.Log
 import com.baimsg.utils.extension.readLines
 import com.baimsg.utils.extension.toFile
-import com.baimsg.utils.toBase64Str
-import com.baimsg.utils.toUTF_8
-import org.jsoup.Jsoup
 import java.math.BigInteger
-import java.util.Base64
 import java.util.concurrent.TimeUnit
 
 fun main() {
